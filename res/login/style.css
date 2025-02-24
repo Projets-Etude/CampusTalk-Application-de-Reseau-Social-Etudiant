@@ -1,0 +1,90 @@
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #B3D8A8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Conteneur principal qui s'ajuste automatiquement */
+.container {
+    position: relative;
+    width: 350px; /* Légèrement élargi pour plus de confort */
+    background: #A3D1C6;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden; /* Évite les débordements */
+}
+
+/* Conteneur des formulaires */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Formulaires */
+.form {
+    display: none; /* Masquer tous les formulaires par défaut */
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Assurez-vous que les formulaires occupent toute la largeur */
+}
+
+/* Afficher le formulaire de connexion par défaut */
+.form.login {
+    display: flex; /* Affiche le formulaire de connexion par défaut */
+}
+
+/* Styles des champs */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #FBFFE4;
+}
+
+/* Bouton */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #3D8D7A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Switch entre les formulaires */
+.switch {
+    margin-top: 15px;
+    color: #3D8D7A;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Afficher l'inscription quand la checkbox est cochée */
+#toggle:checked ~ .form-container .login {
+    display: none; /* Masque le formulaire de connexion */
+}
+
+#toggle:checked ~ .form-container .register {
+    display: flex; /* Affiche le formulaire d'inscription */
+}
+
+/* Ajustement dynamique de la hauteur */
+.container {
+    height: auto; /* Laisse le conteneur s'ajuster automatiquement */
+}
+
+

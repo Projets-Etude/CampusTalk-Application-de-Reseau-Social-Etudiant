@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsUp</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <input type="checkbox" style="display: none" id="toggle" class="hidden">
+        <div class="form-container">
+            <form class="form login">
+                <h2>Connexion</h2>
+                <input type="text" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="mdp" name="mdp" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+                <label class="switch" for="toggle">Pas encore inscrit ?</label>
+            </form>
+            <form class="form register">
+                <h2>Inscription</h2>
+                <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
+                <input type="text" id="nom" name="nom"placeholder="Nom" required>
+                <input type="date" id="anniv" name="anniv" placeholder="Date d'anniversaire" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="mdp" name="mdp" placeholder="Mot de passe" required>
+                <button type="submit">S'inscrire</button>
+                <label class="switch" for="toggle">Déjà inscrit ?</label>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
