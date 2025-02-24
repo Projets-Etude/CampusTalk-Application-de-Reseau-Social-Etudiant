@@ -1,89 +1,89 @@
-package modele;
+package controler;
 
 import java.time.LocalDate;
 
 public class User {
-    private String UPseudo;
-    private String Email;
-    private String Prenom;
-    private String Nom;
-    private LocalDate DateInscritption;
-    private LocalDate Anniversaire;
-    private String Description;
-    private String mpd;
+    private String uPseudo;
+    private String email;
+    private String prenom;
+    private String nom;
+    private LocalDate dateInscritption;
+    private LocalDate anniversaire;
+    private String description;
+    private String mdp;
 
-    public User(String UPseudo, String email, String prenom, String nom, LocalDate dateInscritption, LocalDate anniversaire, String description, String mpd) {
-        this.UPseudo = UPseudo;
-        Email = email;
-        Prenom = prenom;
-        Nom = nom;
-        DateInscritption = LocalDate.now();
-        Anniversaire = anniversaire;
-        Description = description;
-        this.mpd = mpd;
+    public User(String UPseudo, String email, String prenom, String nom, LocalDate dateInscritption, LocalDate anniversaire, String description, String mdp) {
+        this.uPseudo = UPseudo;
+        this.email = email;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.dateInscritption = LocalDate.now();
+        this.anniversaire = anniversaire;
+        this.description = description;
+        this.mdp = mdp;
     }
 
     public String getUPseudo() {
-        return UPseudo;
+        return uPseudo;
     }
 
     public void setUPseudo(String UPseudo) {
-        this.UPseudo = UPseudo;
+        this.uPseudo = UPseudo;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        email = email;
     }
 
     public String getPrenom() {
-        return Prenom;
+        return prenom;
     }
 
     public void setPrenom(String prenom) {
-        Prenom = prenom;
+        prenom = prenom;
     }
 
     public String getNom() {
-        return Nom;
+        return nom;
     }
 
     public void setNom(String nom) {
-        Nom = nom;
+        nom = nom;
     }
 
     public LocalDate getDateInscritption() {
-        return DateInscritption;
+        return dateInscritption;
     }
 
     public void setDateInscritption(LocalDate dateInscritption) {
-        DateInscritption = dateInscritption;
+        dateInscritption = dateInscritption;
     }
 
     public LocalDate getAnniversaire() {
-        return Anniversaire;
+        return anniversaire;
     }
 
     public void setAnniversaire(LocalDate anniversaire) {
-        Anniversaire = anniversaire;
+        anniversaire = anniversaire;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        description = description;
     }
 
-    public String getMpd() {
-        return mpd;
+    public String getMdp() {
+        return mdp;
     }
 
-    public void setMpd(String mpd) {
-        this.mpd = mpd;
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
     }
 }

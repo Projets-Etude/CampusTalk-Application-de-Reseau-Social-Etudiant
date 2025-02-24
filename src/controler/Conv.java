@@ -1,59 +1,59 @@
-package modele;
+package controler;
 
 import java.time.LocalDate;
 
 public class Conv {
-    private String CID;
-    private String Titre;
-    private boolean Privee;
-    private String Owner;
-    private LocalDate Date;
+    private String cno;
+    private String titre;
+    private boolean privee;
+    private String owner;
+    private LocalDate date;
 
-    public Conv(String CID, String titre, boolean privee, String owner, LocalDate date) {
-        this.CID = CID;
-        Titre = titre;
-        Privee = privee;
-        Owner = owner;
-        Date = date;
+    public Conv(String cno, String titre, boolean privee, String owner, LocalDate date) {
+        this.cno = cno;
+        this.titre = titre;
+        this.privee = privee;
+        this.owner = owner;
+        this.date = date;
     }
 
-    public String getCID() {
-        return CID;
+    public String getCno() {
+        return cno;
     }
 
-    public void setCID(String CID) {
-        this.CID = CID;
+    public void setCno(String CID) {
+        this.cno = CID;
     }
 
     public String getTitre() {
-        return Titre;
+        return titre;
     }
 
     public void setTitre(String titre) {
-        Titre = titre;
+        this.titre = titre;
     }
 
     public boolean isPrivee() {
-        return Privee;
+        return privee;
     }
 
     public void setPrivee(boolean privee) {
-        Privee = privee;
+        this.privee = privee;
     }
 
     public String getOwner() {
-        return Owner;
+        return owner;
     }
 
     public void setOwner(String owner) {
-        Owner = owner;
+        this.owner = owner;
     }
 
     public LocalDate getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(LocalDate date) {
-        Date = date;
+        this.date = date;
     }
 }

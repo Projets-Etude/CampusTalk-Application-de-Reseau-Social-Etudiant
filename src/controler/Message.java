@@ -1,49 +1,49 @@
-package modele;
+package controler;
 
 import java.time.LocalDate;
 
 public class Message {
-    private String MID;
-    private String Contenue;
-    private LocalDate Date;
-    private String Auteur;
+    private String mno;
+    private String contenue;
+    private LocalDate date;
+    private String auteur;
 
-    public Message(String MID, String contenue, LocalDate date, String auteur) {
-        this.MID = MID;
-        Contenue = contenue;
-        Date = date;
-        Auteur = auteur;
+    public Message(String mno, String contenue, LocalDate date, String auteur) {
+        this.mno = mno;
+        this.contenue = contenue;
+        this.date = date;
+        this.auteur = auteur;
     }
 
-    public String getMID() {
-        return MID;
+    public String getMno() {
+        return mno;
     }
 
-    public void setMID(String MID) {
-        this.MID = MID;
+    public void setMno(String mno) {
+        this.mno = mno;
     }
 
     public String getContenue() {
-        return Contenue;
+        return contenue;
     }
 
     public void setContenue(String contenue) {
-        Contenue = contenue;
+        contenue = contenue;
     }
 
     public LocalDate getDate() {
-        return Date;
+        return date;
     }
 
     public void setDate(LocalDate date) {
-        Date = date;
+        date = date;
     }
 
     public String getAuteur() {
-        return Auteur;
+        return auteur;
     }
 
     public void setAuteur(String auteur) {
-        Auteur = auteur;
+        auteur = auteur;
     }
 }
