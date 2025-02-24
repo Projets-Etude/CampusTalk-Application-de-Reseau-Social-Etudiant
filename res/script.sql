@@ -42,3 +42,12 @@ CREATE TABLE IF NOT EXISTS Poste (
     CONSTRAINT PK_Poste PRIMARY KEY (PosteID),
     CONSTRAINT FK_Poste_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE
 );
+
+CREATE TABLE Participation (
+    UPseudo VARCHAR(50),
+    CID VARCHAR(50),
+    DateEntree DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT PK_Participation PRIMARY KEY (UPseudo, CID),
+    CONSTRAINT FK_Participation_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_Participation_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE
+);
