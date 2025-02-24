@@ -8,7 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="rain">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="container" action="LIEN VERS LA SERVLET">
         <input type="checkbox" style="display: none" id="toggle" class="hidden">
         <div class="form-container">
             <form class="form login">
@@ -18,10 +41,10 @@
                 <button type="submit">Se connecter</button>
                 <label class="switch" for="toggle">Pas encore inscrit ?</label>
             </form>
-            <form class="form register">
+            <form class="form register" action="LIEN VERS LA SERVLET">
                 <h2>Inscription</h2>
                 <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
-                <input type="text" id="nom" name="nom"placeholder="Nom" required>
+                <input type="text" id="nom" name="nom" placeholder="Nom" required>
                 <input type="date" id="anniv" name="anniv" placeholder="Date d'anniversaire" required>
                 <input type="email" id="email" name="email" placeholder="Email" required>
                 <input type="password" id="mdp" name="mdp" placeholder="Mot de passe" required>
@@ -31,4 +54,5 @@
         </div>
     </div>
 </body>
+
 </html>

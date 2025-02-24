@@ -6,17 +6,19 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 /* Conteneur principal qui s'ajuste automatiquement */
 .container {
     position: relative;
-    width: 350px; /* Légèrement élargi pour plus de confort */
+    width: 350px;
     background: #A3D1C6;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 20px;
-    overflow: hidden; /* Évite les débordements */
+    overflow: hidden;
 }
 
 /* Conteneur des formulaires */
@@ -31,7 +33,7 @@ body {
     display: none; /* Masquer tous les formulaires par défaut */
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Assurez-vous que les formulaires occupent toute la largeur */
+    width: 100%; /* Les formulaires occupent toute la largeur */
 }
 
 /* Afficher le formulaire de connexion par défaut */
@@ -84,7 +86,63 @@ button:hover {
 
 /* Ajustement dynamique de la hauteur */
 .container {
-    height: auto; /* Laisse le conteneur s'ajuster automatiquement */
+    height: auto; 
 }
 
 
+
+
+
+/* PLUIE */
+/* Effet de pluie */
+.rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Styles pour les gouttes */
+.rain div {
+    top: -30px;
+    position: absolute;
+    width: 5px; 
+    height: 30px; 
+    background: rgba(0, 0, 0, 0.4); 
+    animation: fall 1.1s linear infinite;
+}
+
+/* Animation de la pluie */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* Génère plusieurs gouttes avec des positions et des délais différents */
+.rain div:nth-child(1) { left: 5%; animation-delay: 0s; }
+.rain div:nth-child(2) { left: 15%; animation-delay: 0.3s; }
+.rain div:nth-child(3) { left: 25%; animation-delay: 0.6s; }
+.rain div:nth-child(4) { left: 35%; animation-delay: 0.1s; }
+.rain div:nth-child(5) { left: 45%; animation-delay: 0.4s; }
+.rain div:nth-child(6) { left: 55%; animation-delay: 0.7s; }
+.rain div:nth-child(7) { left: 65%; animation-delay: 0.2s; }
+.rain div:nth-child(8) { left: 75%; animation-delay: 0.5s; }
+.rain div:nth-child(9) { left: 85%; animation-delay: 0.8s; }
+.rain div:nth-child(10) { left: 95%; animation-delay: 0.9s; }
+.rain div:nth-child(11) { left: 2%; animation-delay: 0.15s; }
+.rain div:nth-child(12) { left: 12%; animation-delay: 0.25s; }
+.rain div:nth-child(13) { left: 22%; animation-delay: 0.55s; }
+.rain div:nth-child(14) { left: 33%; animation-delay: 0.5s; }
+.rain div:nth-child(15) { left: 49%; animation-delay: 0.45s; }
+.rain div:nth-child(16) { left: 62%; animation-delay: 0.75s; }
+.rain div:nth-child(17) { left: 70%; animation-delay: 0.25s; }
+.rain div:nth-child(18) { left: 73%; animation-delay: 0.55s; }
+.rain div:nth-child(19) { left: 86%; animation-delay: 0.85s; }
+.rain div:nth-child(20) { left: 12%; animation-delay: 0.95s; }
