@@ -27,8 +27,12 @@ public class Modification extends HttpServlet {
     
         res.setContentType("text/html");
         HttpSession session = req.getSession(true);
+        if(session.getAttribute("login") == null){
+            res.sendRedirect("/sae-s4.a02.1/login.html");
+        }else{
+
+        
         User user = (User) session.getAttribute("login");
-        System.out.println(user.getEmail());
         PrintWriter out = res.getWriter();
         String pseudo  = req.getParameter("pseudo");
         String prenom  = req.getParameter("prenom");
@@ -38,6 +42,10 @@ public class Modification extends HttpServlet {
         String description = req.getParameter("description");
         String mdp  = req.getParameter("mdp");
         UserDAO userDAO = new UserDAO();
+        String ancienPseudo = "";
+        if(user != null){
+            ancienPseudo = user.getUPseudo();
+        }
         if(pseudo == null || pseudo.isEmpty()){
             pseudo = user.getUPseudo();
         }
@@ -59,7 +67,7 @@ public class Modification extends HttpServlet {
         if(mdp == null || mdp.isEmpty()){
             mdp = user.getMdp();
         }
-        User doneUpdate = userDAO.updateUser(pseudo, email, prenom, nom, anniv, description, mdp, user.getUPseudo());
+        User doneUpdate = userDAO.updateUser(pseudo, email, prenom, nom, anniv, description, mdp, ancienPseudo);
         if(doneUpdate != null){
             System.out.println("oui");
             session.setAttribute("login", doneUpdate);
@@ -68,5 +76,6 @@ public class Modification extends HttpServlet {
             res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
             System.out.println("non");
         }
+    }
     }
 }
