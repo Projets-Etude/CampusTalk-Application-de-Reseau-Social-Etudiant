@@ -37,16 +37,18 @@ public class UserDAO {
 
     public User findByID(String id){
         User user = null;
-        String query="SELECT * FROM user WHERE UPseudo = ?";
+        String query="SELECT * FROM utilisateur WHERE UPseudo = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getString("uPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscritption").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));
+                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));
             }
             con.close();
         } catch (SQLException e) {
-            out.println("Erreur SQL : " + e.getMessage());
+            System.out.println("Erreur SQL : " + e.getMessage());
+            return null;
+
         }
         return user;
     }
