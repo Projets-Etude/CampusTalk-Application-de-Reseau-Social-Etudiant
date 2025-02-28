@@ -1,7 +1,41 @@
 {
     "java.project.sourcePaths": [
-        "src",
-        "res"
+        "WEB-INF\\src"
     ],
-    "java.project.referencedLibraries": []
+    "java.project.referencedLibraries": [
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\postgresql-42.7.4.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jsp-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-util-scan.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina-ha.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-pt-BR.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\annotations-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina-ant.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jaspic-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\servlet-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina-ssi.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jakartaee-migration-1.0.9-shaded.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-es.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jasper-el.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-ko.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-fr.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-zh-CN.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\ecj-4.27.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina-tribes.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-util.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-ja.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-coyote.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jasper.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-ru.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-dbcp.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-de.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-jni.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-coyote-ffm.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-cs.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\el-api.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina-storeconfig.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-jdbc.jar"
+    ],
+    "java.project.outputPath": "WEB-INF\\classes"
 }
