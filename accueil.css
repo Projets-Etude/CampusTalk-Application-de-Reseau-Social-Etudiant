@@ -148,6 +148,37 @@ textarea {
     resize: none;
 }
 
+/*FIL ACTUALITES*/
+
+.conteneur-centrer {
+    display: flex;
+    justify-content: center;  /* Centre horizontalement */
+    align-items: center;      /* Centre verticalement */
+    height: calc(100vh - 100px);  /* Réduit la hauteur pour ne pas empiéter sur le header */
+}
+
+.div-actualites{
+    min-height: 95%;
+    min-width: 95%;
+    max-height: 50%;
+    max-width: 50%;
+    border-radius: 10px;
+    background-color: white;
+}
+.welcome{
+    background-color: #1d7452;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+.welcome > div {
+    color: white;
+}
+
+
+
 /* PLUIE */
 /* Effet de pluie */
 .rain {

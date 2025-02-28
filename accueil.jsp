@@ -21,7 +21,7 @@
         User user = login;
        
     %>
-    <div class="rain">
+    <%-- <div class="rain">
         <div></div>
         <div></div>
         <div></div>
@@ -42,12 +42,12 @@
         <div></div>
         <div></div>
         <div></div>
-    </div>
+    </div> --%>
     <header class="navbar">
-        <div class="logo">WhatsUp</div>
+        <div class="logo">CampusTalk</div>
         <nav>
             <label for="modal-accueil">Accueil</label>
-            <label for="modal-messages">Messages</label>
+            <label for="modal-messages">Message</label>
             <label for="modal-abonnement">Abonnement</label>
             <label for="modal-profil">Profil</label>
         </nav>
@@ -107,7 +107,20 @@
     </div>
 
 
-    <p>test</p>
+    <div class="conteneur-centrer">
+        <div class="div-actualites">
+            <header class="welcome">
+            <%
+
+            if(user != null){
+                out.println("<div>Bienvenue "+user.getUPseudo() +" !</div>");
+            }
+                
+            %>
+            </header>
+        
+        </div>
+    </div>
 
     
 
