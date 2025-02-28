@@ -11,11 +11,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/register")
 
@@ -26,6 +28,7 @@ public class Register extends HttpServlet {
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
         DS ds = new DS();
+        UserDAO userDAO = new UserDAO();
         String pseudo  = req.getParameter("pseudo");
         String prenom  = req.getParameter("prenom");
         String nom  = req.getParameter("nom");
@@ -46,8 +49,11 @@ public class Register extends HttpServlet {
             ps.setString(6, mdp);
             out.println(ps.toString());
             int index = ps.executeUpdate();
+            User user = userDAO.findByID(pseudo);
             
             if(index == 1){
+                HttpSession session = req.getSession(true);
+                session.setAttribute("login", user);
                 res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
 
             }else{              

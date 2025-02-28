@@ -4,6 +4,7 @@ import controler.Message;
 import controler.User;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,40 @@ public class UserDAO {
 
         }
         return user;
+    }
+
+    public User updateUser(String pseudo, String email, String prenom, String nom, String anniv, String description, String mdp, String ancienPseudo){
+        UserDAO userDAO = new UserDAO();
+        String query = "update utilisateur set UPseudo = ? , Email = ? , Prenom = ? , Nom = ? , Anniversaire = ? , Description = ? , Mdp = ?  where UPseudo = ? ";
+
+        try(Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)){
+            ps.setString(1, pseudo);
+            ps.setString(2, email);
+            ps.setString(3, prenom);
+            ps.setString(4, nom);
+            ps.setDate(5, Date.valueOf(LocalDate.parse(anniv)));
+            ps.setString(6, description);
+            ps.setString(7, mdp);
+            ps.setString(8, ancienPseudo);
+            
+            System.out.println(ps.toString());
+            int index = ps.executeUpdate();
+            
+            
+            con.close();
+
+            if(index == 1){
+                return userDAO.findByID(pseudo);
+
+            }else{   
+                return null;
+            }   
+
+        }
+        catch(SQLException e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
     }
 
     public List<User> findAll() {

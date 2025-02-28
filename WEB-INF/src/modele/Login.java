@@ -11,11 +11,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/login")
 
@@ -26,6 +28,7 @@ public class Login extends HttpServlet {
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
         DS ds = new DS();
+        UserDAO userDAO = new UserDAO();
         String pseudo  = req.getParameter("pseudo");
         String mdp  = req.getParameter("mdp");
 
@@ -40,16 +43,20 @@ public class Login extends HttpServlet {
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
-                res.sendRedirect("/sae-s4.a02.1/accueil.jsp?pseudo=" + pseudo);
+                HttpSession session = req.getSession(true);
+                User user = userDAO.findByID(pseudo);
+                session.setAttribute("login", user);
+                res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
 
-            }else{              
+            }else{
+                res.sendRedirect("/sae-s4.a02.1/login.html"); 
             }
-
             con.close();
 
         }
         catch(SQLException e){
-            out.println(e.getLocalizedMessage());
+            res.sendRedirect("/sae-s4.a02.1/login.html"); 
+            System.out.println(e.getLocalizedMessage());
         }
     }
 }
