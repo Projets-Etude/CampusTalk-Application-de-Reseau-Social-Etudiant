@@ -41,7 +41,7 @@ public class Register extends HttpServlet {
         String query = "insert into utilisateur values (?,?,?,?,'"+LocalDate.now()+"',?,null,?)";
         try{
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, pseudo.toLowerCase());
+            ps.setString(1, pseudo);
             ps.setString(2, email);
             ps.setString(3, prenom);
             ps.setString(4, nom);

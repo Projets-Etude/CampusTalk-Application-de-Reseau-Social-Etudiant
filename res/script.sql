@@ -51,3 +51,22 @@ CREATE TABLE Participation (
     CONSTRAINT FK_Participation_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
     CONSTRAINT FK_Participation_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE
 );
+
+
+INSERT INTO Poste (PosteID, Contenu, DatePoste, VisibiliteRestreinte, UPseudo) VALUES
+('P001', 'Bonjour tout le monde !', '2024-02-20', FALSE, 'Dutax'),
+('P002', 'Quelqu''un a des recommandations de livres ?', '2024-02-21', TRUE, 'Dutax'),
+('P003', 'Le soleil est enfin là !', '2024-02-22', FALSE, 'Dutax'),
+('P004', 'Petit café du matin ☕', '2024-02-23', FALSE, 'Dutax'),
+('P005', 'Grosse mise à jour sur mon projet de dev !', '2024-02-24', TRUE, 'Dutax'),
+('P006', 'Les chats sont supérieurs aux chiens. Convainquez-moi du contraire.', '2024-02-25', FALSE, 'Dutax'),
+('P007', 'Nouvelle photo de mon voyage au Japon', '2024-02-26', TRUE, 'Dutax'),
+('P008', 'Un bug mystérieux me hante... 😱', '2024-02-27', FALSE, 'Dutax'),
+('P009', 'La musique Lo-Fi, c''est la meilleure pour bosser.', '2024-02-28', FALSE, 'Dutax'),
+('P010', 'J’ai découvert un resto incroyable à Lille !', '2024-02-29', TRUE, 'Dutax'),
+('P011', 'Nouvelle vidéo sur ma chaîne YouTube !', '2024-03-01', FALSE, 'Dutax'),
+('P012', 'Les IA prennent le contrôle 😆', '2024-03-02', FALSE, 'Dutax'),
+('P013', 'Apprendre une nouvelle langue, challenge accepté !', '2024-03-03', TRUE, 'Dutax'),
+('P014', 'Pourquoi le Java est-il si controversé ?', '2024-03-04', FALSE, 'Dutax'),
+('P015', 'Bon dimanche à tous !', '2024-03-05', FALSE, 'Dutax');
+

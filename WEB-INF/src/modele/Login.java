@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, pseudo);
             ps.setString(2, mdp);
-            out.println(ps.toString());
+            System.out.println(ps.toString());
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){

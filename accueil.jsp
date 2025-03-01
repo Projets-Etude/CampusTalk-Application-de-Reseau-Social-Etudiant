@@ -7,7 +7,7 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" href="accueil.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User" %>
+    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste" %>
 </head>
 <body>
     <%
@@ -108,19 +108,46 @@
 
 
     <div class="conteneur-centrer">
-        <div class="div-actualites">
-            <header class="welcome">
+    <div class="div-actualites">
+        <header class="welcome">
             <%
-
             if(user != null){
                 out.println("<div>Bienvenue "+user.getUPseudo() +" !</div>");
             }
-                
             %>
-            </header>
-        
+        </header>
+
+        <div class="content-container">
+            <div class="abonnement">
+                <header class="titreListeAbo">
+                    <div>Liste Abonnements</div>
+                </header>
+                
+            </div>
+            <div class="fil">
+                <header class="titreFilActu">
+                    <div>Fil d'actualites</div>
+                </header>
+                
+                <%
+                if(user != null){
+                    PosteDAO posteDAO = new PosteDAO();
+                    List<Poste> listPoste = posteDAO.findAll();
+
+                    for(Poste poste : listPoste){
+                        if(!poste.getUPseudo().equals(user.getUPseudo()) && poste.isVisibiliteRestreinte()){
+                            continue;
+                        }else{
+                            out.println(poste.toString());
+                        }
+                        
+                    }
+                }
+                %>
+            </div>
         </div>
     </div>
+</div>
 
     
 
