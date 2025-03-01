@@ -7,7 +7,7 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" href="accueil.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement" %>
+    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv" %>
 </head>
 <body>
     <%
@@ -46,9 +46,7 @@
     <header class="navbar">
         <div class="logo">CampusTalk</div>
         <nav>
-            <label for="modal-accueil">Accueil</label>
-            <label for="modal-messages">Message</label>
-            <label for="modal-abonnement">Abonnement</label>
+            <label for="modal-messages">Conversations</label>
             <label for="modal-profil">Profil</label>
         </nav>
     </header>
@@ -61,17 +59,22 @@
     <div class="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
-            <h2>Messages</h2>
-            <p>Consultez vos messages ici.</p>
-        </div>
-    </div>
+            <h2>Conversations</h2>
+            <div class="div-conversations">
+            <%
+            if(user != null){
+                ConvDAO convDAO = new ConvDAO();
+                List<Conv> listConv = convDAO.findAll();
 
-    <input type="radio" id="modal-abonnement" name="modal">
-    <div class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
-            <h2>Abonnement</h2>
-            <p>Gérez votre abonnement.</p>
+                for(Conv conv : listConv){
+                    if(conv.isPrivee() && !user.getUPseudo().equals(conv.getOwner())){
+                        continue;
+                    }
+                    out.println(conv.toString());
+                }
+            }
+            %>
+            </div>
         </div>
     </div>
 
@@ -144,14 +147,17 @@
                 if(user != null){
                     PosteDAO posteDAO = new PosteDAO();
                     List<Poste> listPoste = posteDAO.findAll();
+                    AbonnementDAO abonnementDAO = new AbonnementDAO();
 
                     for(Poste poste : listPoste){
+                        if(abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo()) && poste.isVisibiliteRestreinte()){
+                            out.println(poste.toString());
+                        }
                         if(!poste.getUPseudo().equals(user.getUPseudo()) && poste.isVisibiliteRestreinte()){
                             continue;
                         }else{
                             out.println(poste.toString());
                         }
-                        
                     }
                 }
                 %>

@@ -1,6 +1,8 @@
 package controler;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message {
     private String mno;
@@ -46,4 +48,20 @@ public class Message {
     public void setAuteur(String auteur) {
         auteur = auteur;
     }
+
+    @Override
+    public String toString() {
+
+    // Déterminer le type de message (utilisateur ou admin)
+    String messageClass = this.auteur.equals("admin") ? "admin" : "user";
+    
+    
+    // Créer la structure HTML
+    return "<div class=\"message " + messageClass + "\">\n" +
+           "    <div class=\"author\">" + auteur + "</div>\n" +
+           "    <div class=\"content\">" + contenue + "</div>\n" +
+           "    <div class=\"time\">" + date + "</div>\n" +
+           "</div>";
+}
+
 }

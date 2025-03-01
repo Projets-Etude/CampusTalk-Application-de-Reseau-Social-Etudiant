@@ -49,11 +49,38 @@ public class Conv {
         this.owner = owner;
     }
 
+    
     public LocalDate getDate() {
         return date;
     }
-
+    
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        String privacyStatusClass = this.privee ? "private" : "public";
+        String privacyStatusText = this.privee ? "Privée" : "Publique";
+        
+        // Lien vers la page JSP, ici tu peux ajuster l'URL selon ton besoin
+        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cno;  // On suppose que chaque conversation a un id unique
+        
+        return String.format(
+            "<div class=\"conversation-card\">\n" +
+            "    <div class=\"conversation-header\">\n" +
+            "        <a href=\"%s\" class=\"conversation-title\">%s</a>\n" +
+            "        <span class=\"conversation-owner\">Par %s</span>\n" +
+            "    </div>\n" +
+            "    <div class=\"conversation-details\">\n" +
+            "        <span class=\"privacy-status %s\">%s</span>\n" +
+            "        <span class=\"conversation-date\">%s</span>\n" +
+            "    </div>\n" +
+            "</div>",
+            url, titre, owner, privacyStatusClass, privacyStatusText, date
+        );
+    }
+    
+    
+    
 }

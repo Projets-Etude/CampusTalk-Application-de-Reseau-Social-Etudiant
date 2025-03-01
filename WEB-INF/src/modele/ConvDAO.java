@@ -6,6 +6,7 @@ import controler.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -18,8 +19,7 @@ public class ConvDAO {
     }
 
     public void create(Conv conv){
-        String query="INSERT INTO conv values" +
-                "(?,?,?,?,?);";
+        String query="INSERT INTO Conversation values (?,?,?,?,?)";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, conv.getCno());
             ps.setString(2, conv.getTitre());
@@ -35,7 +35,7 @@ public class ConvDAO {
 
     public List<Conv> findAll() {
         List<Conv> convs = new ArrayList<>();
-        String query = "SELECT * FROM conv";
+        String query = "SELECT * FROM Conversation";
 
         try (Connection con = ds.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -44,11 +44,11 @@ public class ConvDAO {
 
             while (rs.next()) {
                 Conv conv = new Conv(
-                        rs.getString("cno"),
+                        rs.getString("cid"),
                         rs.getString("titre"),
                         rs.getBoolean("privee"),
                         rs.getString("owner"),
-                        rs.getDate("date").toLocalDate()
+                        rs.getDate("datecreation").toLocalDate()
                 );
                 convs.add(conv);
             }
@@ -63,12 +63,12 @@ public class ConvDAO {
 
     public Conv findByID(String id){
         Conv conv = null;
-        String query="SELECT * FROM conv WHERE cno = ?";
+        String query="SELECT * FROM Conversation WHERE cid = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                conv = new Conv(rs.getString("conv"), rs.getString("titre"), rs.getBoolean("privee"), rs.getString("owner"), rs.getDate("date").toLocalDate());
+                conv = new Conv(rs.getString("cid"), rs.getString("titre"), rs.getBoolean("privee"), rs.getString("owner"), rs.getDate("datecreation").toLocalDate());
             }
             con.close();
         } catch (SQLException e) {
@@ -77,9 +77,37 @@ public class ConvDAO {
         return conv;
     }
 
+    public List<Conv> findByOwner(String owner) {
+        List<Conv> convs = new ArrayList<>();
+        String query = "SELECT * FROM Conversation WHERE Owner = ?";
+    
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, owner);
+            ResultSet rs = ps.executeQuery();
+    
+            while (rs.next()) {
+                Conv conv = new Conv(
+                        rs.getString("CID"),
+                        rs.getString("Titre"),
+                        rs.getBoolean("Privee"),
+                        rs.getString("Owner"),
+                        rs.getDate("DateCreation").toLocalDate()
+                );
+                convs.add(conv);
+            }
+    
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+        Collections.reverse(convs);
+        return convs;
+    }
+    
+
     public void deleteById(String id){
         Conv conv = null;
-        String query="Delete * FROM conv WHERE cno = ?";
+        String query="Delete * FROM Conversation WHERE cno = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
             int rs = ps.executeUpdate();

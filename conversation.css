@@ -1,0 +1,141 @@
+/* Général container pour la conversation */
+a{
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+a:hover{
+    color: #ff9800;
+}
+.conversation-container {
+    width: 80vh;
+    height: 85vh;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    padding-bottom: 70px;
+}
+
+
+/* Titre de la conversation */
+.conversation-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 1.8em;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Conteneur des messages */
+.message-container {
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.message-container.left {
+    justify-content: flex-start;
+}
+
+.message-container.right {
+    justify-content: flex-end;
+}
+
+/* Bulle de message */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Par défaut, messages à gauche */
+    margin: 10px 0;
+}
+
+.message-container.right {
+    align-items: flex-end; /* Messages envoyés à droite */
+}
+
+.message-bubble {
+    background-color: #e5e5ea;
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.message-bubble.blue {
+    background-color: #267252;
+    color: white;
+}
+
+.message-date {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 3px;
+}
+
+.message-author {
+    font-size: 0.8em;
+    color: #555;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+
+/* FORM ENVOI MESSAGE */
+
+/* Barre d'envoi de message compacte */
+.message-form {
+    position: fixed;
+    bottom: 0;
+    margin:0 auto;
+    width: 80vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    gap: 8px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-form textarea {
+    flex-grow: 1;
+    resize: none;
+    padding: 8px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    min-height: 35px;
+    max-height: 80px;
+    overflow-y: auto;
+}
+
+.message-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.message-form button:hover {
+    background-color: #0056b3;
+}
+
+
+

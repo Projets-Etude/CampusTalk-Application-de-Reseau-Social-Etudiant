@@ -2,6 +2,7 @@ package modele;
 
 import controler.Message;
 import controler.User;
+import jakarta.servlet.http.HttpSession;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -17,23 +18,26 @@ public class UserDAO {
         ds = new DS();
     }
 
-    public void create(User user){
-        String query="INSERT INTO user values" +
-                "(?,?,?,?,?,?,?,?);";
-        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, user.getUPseudo());
-            ps.setString(2, user.getEmail());
-            ps.setDate(3, Date.valueOf(user.getPrenom()));
-            ps.setString(4, user.getNom());
-            ps.setString(5, String.valueOf(user.getDateInscritption()));
-            ps.setString(6, String.valueOf(user.getAnniversaire()));
-            ps.setString(7, user.getDescription());
-            ps.setString(8, user.getMdp());
-            ps.executeUpdate();
+    public User create(String UPseudo, String email, String prenom, String nom, String anniv, String description, String mdp){
+        String query = "insert into utilisateur values (?,?,?,?,'"+LocalDate.now()+"',?,null,?)";
+        try(Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)){
+            ps.setString(1, UPseudo);
+            ps.setString(2, email);
+            ps.setString(3, prenom);
+            ps.setString(4, nom);
+            ps.setDate(5, Date.valueOf(LocalDate.parse(anniv)));
+            ps.setString(6, mdp);
+            int index = ps.executeUpdate();
             con.close();
-        } catch (SQLException e) {
-            out.println("Erreur SQL : " + e.getMessage());
+            if(index == 1){
+                return new User(UPseudo, email, prenom, nom, LocalDate.now(), LocalDate.parse(anniv), description, mdp);
+            }
+            return null;
         }
+        catch(SQLException e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
     }
 
     public User findByID(String id){
@@ -41,6 +45,25 @@ public class UserDAO {
         String query="SELECT * FROM utilisateur WHERE UPseudo = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));
+            }
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+            return null;
+
+        }
+        return user;
+    }
+
+    public User findByIDandPWD(String pseudo, String mdp){
+        User user = null;
+        String query = "select * from utilisateur where UPseudo = ? and Mdp = ?";
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, pseudo);
+            ps.setString(2, mdp);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));

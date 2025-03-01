@@ -24,10 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class Register extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    
         res.setContentType("text/html");
-        PrintWriter out = res.getWriter();
-        DS ds = new DS();
         UserDAO userDAO = new UserDAO();
         String pseudo  = req.getParameter("pseudo");
         String prenom  = req.getParameter("prenom");
@@ -35,36 +32,16 @@ public class Register extends HttpServlet {
         String anniv  = req.getParameter("anniv");
         String email  = req.getParameter("email");
         String mdp  = req.getParameter("mdp");
+        User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp);
 
-        Connection con = ds.getConnection();
+        if(user != null){
+            HttpSession session = req.getSession(true);
+            session.setAttribute("login", user);
+            res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
 
-        String query = "insert into utilisateur values (?,?,?,?,'"+LocalDate.now()+"',?,null,?)";
-        try{
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, pseudo);
-            ps.setString(2, email);
-            ps.setString(3, prenom);
-            ps.setString(4, nom);
-            ps.setDate(5, Date.valueOf(LocalDate.parse(anniv)));
-            ps.setString(6, mdp);
-            out.println(ps.toString());
-            int index = ps.executeUpdate();
-            User user = userDAO.findByID(pseudo);
-            
-            if(index == 1){
-                HttpSession session = req.getSession(true);
-                session.setAttribute("login", user);
-                res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
-
-            }else{              
-            }
-
-            con.close();
-
+        }else{
+            res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
         }
-        catch(SQLException e){
-            res.sendRedirect("/sae-s4.a02.1/login.html");
-            out.println(e.getLocalizedMessage());
-        }
+        
     }
 }
