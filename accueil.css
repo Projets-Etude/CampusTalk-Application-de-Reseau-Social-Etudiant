@@ -303,6 +303,21 @@ textarea {
     color: #1d7452;
 }
 
+.friend-remove {
+    margin-left: auto;  /* Pousse la croix à droite */
+}
+
+.remove-btn {
+    font-size: 20px;
+    color: #e74c3c;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    color: #c0392b;
+}
+
 
 /* CONVERSATIONS */
 
@@ -384,6 +399,52 @@ textarea {
 /* Private status style */
 .privacy-status.private {
     color: red;
+}
+
+
+.message-form {
+    position: fixed;
+    bottom: 0;
+    left: 30%;
+    width: 80vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    gap: 8px;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-form textarea {
+    flex-grow: 1;
+    resize: none;
+    padding: 8px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    min-height: 35px;
+    max-height: 80px;
+    overflow-y: auto;
+}
+
+.message-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.message-form button:hover {
+    background-color: #0056b3;
 }
 
 

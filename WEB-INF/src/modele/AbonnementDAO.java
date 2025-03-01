@@ -132,5 +132,34 @@ public class AbonnementDAO {
         }
         return abonnements;
     }
+
+    public Abonnement findByUsers(String utilisateur1, String utilisateur2) {
+        Abonnement abonnement = null;
+        String query = "SELECT * FROM Abonnement WHERE (Utilisateur1 = ? AND Utilisateur2 = ?) OR (Utilisateur1 = ? AND Utilisateur2 = ?)";
+    
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+    
+            ps.setString(1, utilisateur1);
+            ps.setString(2, utilisateur2);
+            ps.setString(3, utilisateur2);
+            ps.setString(4, utilisateur1);
+    
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                abonnement = new Abonnement(
+                        rs.getString("AbonnementID"),
+                        rs.getString("Utilisateur1"),
+                        rs.getString("Utilisateur2"),
+                        rs.getDate("DateAbonnement").toLocalDate()
+                );
+            }
+    
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+    
+        return abonnement;
+    }
 }
 

@@ -143,6 +143,18 @@
                 %>
             </div>
         </div>
+
+        <form action="/sae-s4.a02.1/createPoste" method="post" class="message-form">
+            <textarea name="contenu" placeholder="Écrire un post..." required></textarea>
+    
+            <label for="prive">
+                <input type="checkbox" id="prive" name="prive">
+                Privé
+            </label>
+
+            <button type="submit">Envoyer</button>
+        </form>
+
     </div>
 </div>
 

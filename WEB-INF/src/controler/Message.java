@@ -62,6 +62,6 @@ public class Message {
            "    <div class=\"content\">" + contenue + "</div>\n" +
            "    <div class=\"time\">" + date + "</div>\n" +
            "</div>";
-}
+        }
 
 }
