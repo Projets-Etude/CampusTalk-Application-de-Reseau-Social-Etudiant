@@ -23,6 +23,7 @@ public class AbonnementDAO {
             ps.setString(3, abonnement.getUtilisateur2());
             ps.setDate(4, Date.valueOf(abonnement.getDateAbonnement()));
             ps.executeUpdate();
+            con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
@@ -43,6 +44,7 @@ public class AbonnementDAO {
                 );
                 abonnements.add(abonnement);
             }
+            con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
@@ -64,6 +66,7 @@ public class AbonnementDAO {
                         rs.getDate("DateAbonnement").toLocalDate()
                 );
             }
+            con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
@@ -76,9 +79,11 @@ public class AbonnementDAO {
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, abonnementID);
             ps.executeUpdate();
+            con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
+        
     }
 
     // Vérifier si un abonnement existe entre deux utilisateurs
@@ -93,6 +98,7 @@ public class AbonnementDAO {
             if (rs.next()) {
                 return rs.getInt(1) > 0;
             }
+            con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
@@ -119,6 +125,7 @@ public class AbonnementDAO {
                 );
                 abonnements.add(abonnement);
             }
+            con.close();
 
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());

@@ -21,28 +21,6 @@
         User user = login;
        
     %>
-    <%-- <div class="rain">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div> --%>
     <header class="navbar">
         <div class="logo">CampusTalk</div>
         <nav>
@@ -65,8 +43,12 @@
             if(user != null){
                 ConvDAO convDAO = new ConvDAO();
                 List<Conv> listConv = convDAO.findAll();
+                AbonnementDAO abonnementDAO = new AbonnementDAO();
 
                 for(Conv conv : listConv){
+                    if(abonnementDAO.exists(conv.getOwner(),user.getUPseudo()) && conv.isPrivee()){
+                        out.println(conv.toString());
+                    }
                     if(conv.isPrivee() && !user.getUPseudo().equals(conv.getOwner())){
                         continue;
                     }
@@ -101,9 +83,7 @@
                 out.println("<label for=\"description\">Description</label>");
                 out.println("<textarea type=\"text\" id=\"description\" name=\"description\" rows=\"5\" placeholder=\"Entrez votre description\"> </textarea>");
                 }
-                
             %>
-
                 <button type="submit">Enregistrer</button>
             </form>
         </div>

@@ -32,8 +32,10 @@ public class UserDAO {
             if(index == 1){
                 return new User(UPseudo, email, prenom, nom, LocalDate.now(), LocalDate.parse(anniv), description, mdp);
             }
+            con.close();
             return null;
         }
+        
         catch(SQLException e){
             System.out.println(e.getLocalizedMessage());
         }
@@ -102,7 +104,8 @@ public class UserDAO {
 
             }else{   
                 return null;
-            }   
+            }
+            
 
         }
         catch(SQLException e){
