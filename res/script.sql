@@ -52,6 +52,17 @@ CREATE TABLE Participation (
     CONSTRAINT FK_Participation_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS Abonnement (
+    AbonnementID VARCHAR(50) PRIMARY KEY,
+    Utilisateur1 VARCHAR(50),
+    Utilisateur2 VARCHAR(50),
+    DateAbonnement DATE DEFAULT CURRENT_DATE,
+    CONSTRAINT FK_Abonnement_Utilisateur1 FOREIGN KEY (Utilisateur1) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_Abonnement_Utilisateur2 FOREIGN KEY (Utilisateur2) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT UNQ_Abonnement UNIQUE (Utilisateur1, Utilisateur2)
+);
+
+
 
 INSERT INTO Poste (PosteID, Contenu, DatePoste, VisibiliteRestreinte, UPseudo) VALUES
 ('P001', 'Bonjour tout le monde !', '2024-02-20', FALSE, 'Dutax'),

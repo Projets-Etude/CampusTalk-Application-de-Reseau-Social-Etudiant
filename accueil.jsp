@@ -7,7 +7,7 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" href="accueil.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste" %>
+    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement" %>
 </head>
 <body>
     <%
@@ -122,6 +122,17 @@
                 <header class="titreListeAbo">
                     <div>Liste Abonnements</div>
                 </header>
+
+                <%
+                    if(user != null){
+                        AbonnementDAO abonnementDAO = new AbonnementDAO();
+                        List<Abonnement> listAbonnement = abonnementDAO.findByUserPseudo(user.getUPseudo());
+                        for(Abonnement abo : listAbonnement){
+                            out.println(abo.toString(user.getUPseudo()));
+                        }
+                    }
+                    
+                    %>
                 
             </div>
             <div class="fil">
