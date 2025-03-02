@@ -131,12 +131,58 @@
 
                     for(Poste poste : listPoste){
                         if(abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo()) && poste.isVisibiliteRestreinte()){
-                            out.println(poste.toString());
+                            //BOUTON SUIVI
+                            out.println("<div class='tweet'>" +
+                                        "<div class='tweet-header'>" +
+                                            "<strong>" + poste.getUPseudo() + "</strong>" +
+                                            "<div class='tweet-date'>" + poste.getDatePoste() + "</div>" +
+                                        "</div>" +
+                                        "<div class='tweet-content'>" + poste.getContenu() + "</div>" +
+                                        (poste.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                                        "<div class='tweet-footer'>" +
+                                            "<button class='followed-button'>Suivi</button>" +
+                                        "</div>" +
+                                        "</div>");
                         }
                         if(!poste.getUPseudo().equals(user.getUPseudo()) && poste.isVisibiliteRestreinte()){
                             continue;
+                        }else if(poste.getUPseudo().equals(user.getUPseudo())){
+
+                            // CURRENT UTILISATEUR DONC PAS BOUTON SUIVRE
+                            out.println("<div class='tweet'>" +
+                                        "<div class='tweet-header'>" +
+                                            "<strong>" + poste.getUPseudo() + "</strong>" +
+                                            "<div class='tweet-date'>" + poste.getDatePoste() + "</div>" +
+                                        "</div>" +
+                                        "<div class='tweet-content'>" + poste.getContenu() + "</div>" +
+                                        (poste.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                                        "</div>");
+                        }else if(abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo())){
+                            // SUIVRE UN UTILISATEUR
+                            out.println("<div class='tweet'>" +
+                                        "<div class='tweet-header'>" +
+                                            "<strong>" + poste.getUPseudo() + "</strong>" +
+                                            "<div class='tweet-date'>" + poste.getDatePoste() + "</div>" +
+                                        "</div>" +
+                                        "<div class='tweet-content'>" + poste.getContenu() + "</div>" +
+                                        (poste.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                                        "<div class='tweet-footer'>" +
+                                            "<button class='followed-button'>Suivi</button>" +
+                                        "</div>" +
+                                        "</div>");
                         }else{
-                            out.println(poste.toString());
+                            out.println("<div class='tweet'>" +
+                                        "<div class='tweet-header'>" +
+                                            "<strong>" + poste.getUPseudo() + "</strong>" +
+                                            "<div class='tweet-date'>" + poste.getDatePoste() + "</div>" +
+                                        "</div>" +
+                                        "<div class='tweet-content'>" + poste.getContenu()+ "</div>" +
+                                        (poste.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                                        "<div class='tweet-footer'>" +
+                                            "<a href='suivreUtilisateur?utilisateur=" + poste.getUPseudo() + "' class='follow-button'>Suivre</a>" +
+                                        "</div>" +
+                                        "</div>");
+
                         }
                     }
                 }

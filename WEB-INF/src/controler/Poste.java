@@ -64,13 +64,18 @@ public class Poste {
     @Override
     public String toString() {
         return "<div class='tweet'>" +
-            "<div class='tweet-header'>" +
-                "<strong>" + uPseudo + "</strong> · <span class='tweet-date'>" + datePoste + "</span>" +
-            "</div>" +
-            "<div class='tweet-content'>" + contenu + "</div>" +
-            (visibiliteRestreinte ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
-            "</div>";
+                "<div class='tweet-header'>" +
+                    "<strong>" + uPseudo + "</strong>" +
+                    "<div class='tweet-date'>" + datePoste + "</div>" +
+                "</div>" +
+                "<div class='tweet-content'>" + contenu + "</div>" +
+                (visibiliteRestreinte ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                "<div class='tweet-footer'>" +
+                    "<a href='SuivreUtilisateur?pseudo=" + uPseudo + "' class='follow-button'>Suivre</a>" +
+                "</div>" +
+                "</div>";
     }
+    
 
 }
 
