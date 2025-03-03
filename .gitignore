@@ -1,3 +1,4 @@
 *.class
 *.prop
 DS.java
+settings.json

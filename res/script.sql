@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Conversation (
     Owner VARCHAR(50),
     DateCreation DATE,
     CONSTRAINT PK_Conversation PRIMARY KEY (CID),
-    CONSTRAINT FK_Conversation_Owner FOREIGN KEY (Owner) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE
+    CONSTRAINT FK_Conversation_Owner FOREIGN KEY (Owner) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Message (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Message (
     Auteur VARCHAR(50),
     CID VARCHAR(50),
     CONSTRAINT PK_Message PRIMARY KEY (MID),
-    CONSTRAINT FK_Message_Auteur FOREIGN KEY (Auteur) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_Message_Auteur FOREIGN KEY (Auteur) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_Message_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Poste (
     VisibiliteRestreinte BOOLEAN,
     UPseudo VARCHAR(50),
     CONSTRAINT PK_Poste PRIMARY KEY (PosteID),
-    CONSTRAINT FK_Poste_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE
+    CONSTRAINT FK_Poste_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Participation (
@@ -48,7 +48,7 @@ CREATE TABLE Participation (
     CID VARCHAR(50),
     DateEntree DATE DEFAULT CURRENT_DATE,
     CONSTRAINT PK_Participation PRIMARY KEY (UPseudo, CID),
-    CONSTRAINT FK_Participation_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_Participation_Utilisateur FOREIGN KEY (UPseudo) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT FK_Participation_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE
 );
 
@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS Abonnement (
     Utilisateur1 VARCHAR(50),
     Utilisateur2 VARCHAR(50),
     DateAbonnement DATE DEFAULT CURRENT_DATE,
-    CONSTRAINT FK_Abonnement_Utilisateur1 FOREIGN KEY (Utilisateur1) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
-    CONSTRAINT FK_Abonnement_Utilisateur2 FOREIGN KEY (Utilisateur2) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_Abonnement_Utilisateur1 FOREIGN KEY (Utilisateur1) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT FK_Abonnement_Utilisateur2 FOREIGN KEY (Utilisateur2) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT UNQ_Abonnement UNIQUE (Utilisateur1, Utilisateur2)
 );
 

@@ -346,7 +346,7 @@ textarea {
 }
 
 .friend-remove {
-    margin-left: auto;  /* Pousse la croix à droite */
+    margin-left: auto; 
 }
 
 .remove-btn {
@@ -432,12 +432,10 @@ textarea {
     font-weight: bold;
 }
 
-/* Public status style */
 .privacy-status.public {
     color: blue;
 }
 
-/* Private status style */
 .privacy-status.private {
     color: red;
 }
@@ -482,7 +480,6 @@ textarea {
 }
 
 /* PLUIE */
-/* Effet de pluie */
 .rain {
     position: absolute;
     top: 0;
