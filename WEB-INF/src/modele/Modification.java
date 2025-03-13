@@ -1,15 +1,6 @@
 package modele;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.apache.commons.text.*;
 import org.apache.commons.text.translate.CharSequenceTranslator;
@@ -36,7 +27,6 @@ public class Modification extends HttpServlet {
 
         
         User user = (User) session.getAttribute("login");
-        PrintWriter out = res.getWriter();
         String pseudo  = req.getParameter("pseudo");
         String prenom  = req.getParameter("prenom");
         String nom  = req.getParameter("nom");

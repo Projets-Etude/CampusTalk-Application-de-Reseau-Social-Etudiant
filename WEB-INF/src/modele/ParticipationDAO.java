@@ -76,6 +76,7 @@ public class ParticipationDAO {
         return conv;
     }
 
+    @SuppressWarnings("unused")
     public void deleteById(String id){
         Conv conv = null;
         String query="Delete * FROM conv WHERE cno = ?";

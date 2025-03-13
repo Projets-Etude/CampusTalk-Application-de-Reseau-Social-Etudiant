@@ -36,7 +36,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        email = email;
+        this.email = email;
     }
 
     public String getPrenom() {
@@ -44,7 +44,7 @@ public class User {
     }
 
     public void setPrenom(String prenom) {
-        prenom = prenom;
+        this.prenom = prenom;
     }
 
     public String getNom() {
@@ -52,7 +52,7 @@ public class User {
     }
 
     public void setNom(String nom) {
-        nom = nom;
+        this.nom = nom;
     }
 
     public LocalDate getDateInscritption() {
@@ -60,7 +60,7 @@ public class User {
     }
 
     public void setDateInscritption(LocalDate dateInscritption) {
-        dateInscritption = dateInscritption;
+        this.dateInscritption = dateInscritption;
     }
 
     public LocalDate getAnniversaire() {
@@ -68,7 +68,7 @@ public class User {
     }
 
     public void setAnniversaire(LocalDate anniversaire) {
-        anniversaire = anniversaire;
+        this.anniversaire = anniversaire;
     }
 
     public String getDescription() {
@@ -76,7 +76,7 @@ public class User {
     }
 
     public void setDescription(String description) {
-        description = description;
+        this.description = description;
     }
 
     public String getMdp() {

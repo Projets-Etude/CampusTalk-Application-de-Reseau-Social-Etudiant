@@ -1,8 +1,6 @@
 package modele;
 
-import controler.Message;
 import controler.User;
-import jakarta.servlet.http.HttpSession;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -143,6 +141,7 @@ public class UserDAO {
         return users;
     }
 
+    @SuppressWarnings("unused")
     public void deleteById(String id){
         User user = null;
         String query="Delete * FROM user WHERE UPseudo = ?";

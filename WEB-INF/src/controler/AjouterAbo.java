@@ -1,10 +1,7 @@
 package controler;
 
 import modele.AbonnementDAO;
-import modele.MessageDAO;
-import modele.PosteDAO;
 import modele.UserDAO;
-import controler.Message;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,12 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @WebServlet("/suivreUtilisateur")
 public class AjouterAbo extends HttpServlet {
+    @SuppressWarnings("unused")
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 

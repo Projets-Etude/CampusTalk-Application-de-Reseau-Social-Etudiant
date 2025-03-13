@@ -1,8 +1,6 @@
 package controler;
 
-import modele.MessageDAO;
 import modele.PosteDAO;
-import controler.Message;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

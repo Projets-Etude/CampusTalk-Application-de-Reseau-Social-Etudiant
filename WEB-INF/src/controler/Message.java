@@ -1,8 +1,6 @@
 package controler;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Message {
     private String mno;
@@ -30,7 +28,7 @@ public class Message {
     }
 
     public void setContenue(String contenue) {
-        contenue = contenue;
+        this.contenue = contenue;
     }
 
     public LocalDate getDate() {
@@ -38,7 +36,7 @@ public class Message {
     }
 
     public void setDate(LocalDate date) {
-        date = date;
+        this.date = date;
     }
 
     public String getAuteur() {
@@ -46,7 +44,7 @@ public class Message {
     }
 
     public void setAuteur(String auteur) {
-        auteur = auteur;
+        this.auteur = auteur;
     }
 
     @Override

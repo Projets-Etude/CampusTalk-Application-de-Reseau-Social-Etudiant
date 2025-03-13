@@ -3,7 +3,6 @@ package controler;
 import java.util.Date;
 
 import modele.LikePosteDAO;
-import modele.PosteDAO;
 
 public class Poste {
     private String posteID;

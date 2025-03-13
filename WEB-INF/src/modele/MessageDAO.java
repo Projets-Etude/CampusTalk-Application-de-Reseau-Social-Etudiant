@@ -82,6 +82,7 @@ public class MessageDAO {
         return messages;
     }
 
+    @SuppressWarnings("unused")
     public void deleteById(String id){
         Message message = null;
         String query="Delete * FROM message WHERE mno = ?";

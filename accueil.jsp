@@ -7,7 +7,7 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" href="accueil.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv, modele.LikePosteDAO" %>
+    <%@ page import="modele.UserDAO, java.util.*, controler.User,controler.ConvDuo, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv, modele.LikePosteDAO" %>
 </head>
 <body>
     <%
@@ -43,16 +43,25 @@
             if(user != null){
                 ConvDAO convDAO = new ConvDAO();
                 List<Conv> listConv = convDAO.findAll();
+                List<ConvDuo> listConvDuo = convDAO.findAllDuo();
                 AbonnementDAO abonnementDAO = new AbonnementDAO();
 
+                for(ConvDuo convDuo: listConvDuo){
+                    if(user.getUPseudo().equals(convDuo.getUPseudo1()) || user.getUPseudo().equals(convDuo.getUPseudo2())){
+                        out.println(convDuo.toString());
+                    }
+                }
                 for(Conv conv : listConv){
-                    if(abonnementDAO.exists(conv.getOwner(),user.getUPseudo()) && conv.isPrivee()){
+                    if(abonnementDAO.exists(conv.getOwner(),user.getUPseudo()) && conv.isPrivee() && !conv.isDuo()){
                         out.println(conv.toString());
                     }
-                    if(conv.isPrivee() && !user.getUPseudo().equals(conv.getOwner())){
+                    if((conv.isPrivee() && !user.getUPseudo().equals(conv.getOwner())) || conv.isDuo()){
                         continue;
                     }
-                    out.println(conv.toString());
+                    if(!conv.isDuo()){
+                        out.println(conv.toString());
+                    }
+                    
                 }
             }
             %>

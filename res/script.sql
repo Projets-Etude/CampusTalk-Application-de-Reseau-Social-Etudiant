@@ -23,6 +23,17 @@ CREATE TABLE IF NOT EXISTS Conversation (
     CONSTRAINT FK_Conversation_Owner FOREIGN KEY (Owner) REFERENCES Utilisateur(UPseudo) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS ConversationDuo (
+    CID VARCHAR(50),
+    User1 VARCHAR(50),
+    User2 VARCHAR(50),
+    CONSTRAINT FK_ConversationDuo_Conversation FOREIGN KEY (CID) REFERENCES Conversation(CID) ON DELETE CASCADE,
+    CONSTRAINT FK_ConversationDuo_User1 FOREIGN KEY (User1) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT FK_ConversationDuo_User2 FOREIGN KEY (User2) REFERENCES Utilisateur(UPseudo) ON DELETE CASCADE,
+    CONSTRAINT PK_ConversationDuo PRIMARY KEY (CID, User1, User2)
+);
+
+
 CREATE TABLE IF NOT EXISTS Message (
     MID VARCHAR(50),
     Contenue TEXT NOT NULL,
