@@ -45,6 +45,7 @@ public class ParticipationDAO {
                         rs.getString("cno"),
                         rs.getString("titre"),
                         rs.getBoolean("privee"),
+                        rs.getBoolean("duo"),
                         rs.getString("owner"),
                         rs.getDate("date").toLocalDate()
                 );
@@ -66,7 +67,7 @@ public class ParticipationDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                conv = new Conv(rs.getString("conv"), rs.getString("titre"), rs.getBoolean("privee"), rs.getString("owner"), rs.getDate("date").toLocalDate());
+                conv = new Conv(rs.getString("conv"), rs.getString("titre"), rs.getBoolean("privee"), rs.getBoolean("duo"), rs.getString("owner"), rs.getDate("date").toLocalDate());
             }
             con.close();
         } catch (SQLException e) {

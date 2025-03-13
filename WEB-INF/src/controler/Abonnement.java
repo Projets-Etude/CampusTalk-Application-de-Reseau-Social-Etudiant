@@ -1,8 +1,6 @@
 package controler;
 
 import java.time.LocalDate;
-
-import modele.AbonnementDAO;
 import modele.UserDAO;
 
 public class Abonnement {
@@ -66,6 +64,9 @@ public class Abonnement {
                    "<p><strong>Pseudo :</strong> " + user2.getUPseudo() + "</p>" +
                    "<p><strong>Prénom :</strong> " + user2.getPrenom() + "</p>" +
                "</div>" +
+                "<div>"+
+                    "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user2.getUPseudo() + "\" class=\"create-conv-btn\">Créer conversation</a>" +
+                "</div>" +
                "<div class=\"friend-remove\">" +
                    "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user2.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
                "</div>" +
@@ -80,11 +81,13 @@ public class Abonnement {
                    "<p><strong>Pseudo :</strong> " + user1.getUPseudo() + "</p>" +
                    "<p><strong>Prénom :</strong> " + user1.getPrenom() + "</p>" +
                "</div>" +
+                "<div>"+
+                    "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user1.getUPseudo() + "\" class=\"create-conv-btn\">Créer conversation</a>" +
+                "</div>" +
                "<div class=\"friend-remove\">" +
                    "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user1.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
                "</div>" +
            "</div>";
-
         }
         
     }
