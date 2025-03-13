@@ -2,6 +2,9 @@ package controler;
 
 import java.util.Date;
 
+import modele.LikePosteDAO;
+import modele.PosteDAO;
+
 public class Poste {
     private String posteID;
     private String contenu;
@@ -60,18 +63,85 @@ public class Poste {
         this.uPseudo = uPseudo;
     }
 
-    // Méthode toString pour affichage
-    @Override
-    public String toString() {
+    public String getPosteSuivi(String userPseudo, LikePosteDAO likePosteDAO){
+        return "<div class='tweet'>" +
+        "<div class='tweet-header'>" +
+            "<strong>" + this.getUPseudo() + "</strong>" +
+            "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+        "</div>" +
+        "<div class='tweet-content'>" + this.getContenu() + "</div>" +
+        (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+        "<div class='tweet-footer'>" +
+            "<button class='followed-button'>Suivi</button>" +
+            // Bouton Like
+            "<form action='LikePosteServlet' method='post' class='like-form'>" +
+                "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
+                "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
+                    (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                "</button>" +
+            "</form>" +
+        "</div>" +
+        "</div>";
+    }
+
+    public String getPosteCurrentUser(String userPseudo, LikePosteDAO likePosteDAO){
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
-                    "<strong>" + uPseudo + "</strong>" +
-                    "<div class='tweet-date'>" + datePoste + "</div>" +
+                    "<strong>" + this.getUPseudo() + "</strong>" +
+                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
                 "</div>" +
-                "<div class='tweet-content'>" + contenu + "</div>" +
-                (visibiliteRestreinte ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                "<div class='tweet-content'>" + this.getContenu() + "</div>" +
+                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
                 "<div class='tweet-footer'>" +
-                    "<a href='SuivreUtilisateur?pseudo=" + uPseudo + "' class='follow-button'>Suivre</a>" +
+                    // Bouton Like
+                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
+                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
+                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
+                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "</button>" +
+                    "</form>" +
+                "</div>" +
+                "</div>";
+    }
+
+    public String getPosteSuivre(String userPseudo, LikePosteDAO likePosteDAO){
+        return "<div class='tweet'>" +
+                "<div class='tweet-header'>" +
+                    "<strong>" + this.getUPseudo() + "</strong>" +
+                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
+                "<div class='tweet-content'>" + this.getContenu() + "</div>" +
+                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                "<div class='tweet-footer'>" +
+                    "<button class='followed-button'>Suivi</button>" +
+                    // Bouton Like
+                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
+                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
+                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
+                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "</button>" +
+                    "</form>" +
+                "</div>" +
+                "</div>";
+    }
+
+    public String getPosteSuivreElse(String userPseudo, LikePosteDAO likePosteDAO){
+        return "<div class='tweet'>" +
+                "<div class='tweet-header'>" +
+                    "<strong>" + this.getUPseudo() + "</strong>" +
+                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
+                "<div class='tweet-content'>" + this.getContenu()+ "</div>" +
+                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
+                "<div class='tweet-footer'>" +
+                    "<a href='suivreUtilisateur?utilisateur=" + this.getUPseudo() + "' class='follow-button'>Suivre</a>" +
+                    // Bouton Like
+                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
+                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
+                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
+                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "</button>" +
+                    "</form>" +
                 "</div>" +
                 "</div>";
     }

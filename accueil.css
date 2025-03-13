@@ -260,6 +260,8 @@ textarea {
 .tweet-footer {
     margin-top: 10px;
     text-align: left;
+    display: flex; 
+    gap: 10px;     
 }
 
 .tweet-date {
@@ -313,6 +315,32 @@ textarea {
 .follow-button:hover {
     background-color: #0d8bd9;
 }
+
+.like-button {
+    background-color: #e05380;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-weight: bold;
+}
+
+.like-button:hover {
+    background-color: #c21d4b;
+    transform: scale(1.1);
+}
+
+.like-button.liked {
+    background-color: #df9691;
+}
+
+.like-button.liked:hover {
+    background-color: #d32f2f;
+}
+
 
 /*FRIENDS*/
 
