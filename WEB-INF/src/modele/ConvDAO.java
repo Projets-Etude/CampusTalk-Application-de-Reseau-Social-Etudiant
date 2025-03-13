@@ -24,6 +24,7 @@ public class ConvDAO {
             ps.setString(1, conv.getCno());
             ps.setString(2, conv.getTitre());
             ps.setBoolean(3, conv.isPrivee());
+            ps.setBoolean(4, conv.isDuo());
             ps.setString(4, conv.getOwner());
             ps.setString(5, String.valueOf(conv.getDate()));
             ps.executeUpdate();
@@ -47,6 +48,7 @@ public class ConvDAO {
                         rs.getString("cid"),
                         rs.getString("titre"),
                         rs.getBoolean("privee"),
+                        rs.getBoolean("duo"),
                         rs.getString("owner"),
                         rs.getDate("datecreation").toLocalDate()
                 );
@@ -68,7 +70,7 @@ public class ConvDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                conv = new Conv(rs.getString("cid"), rs.getString("titre"), rs.getBoolean("privee"), rs.getString("owner"), rs.getDate("datecreation").toLocalDate());
+                conv = new Conv(rs.getString("cid"), rs.getString("titre"), rs.getBoolean("privee"), rs.getBoolean("duo"), rs.getString("owner"), rs.getDate("datecreation").toLocalDate());
             }
             con.close();
         } catch (SQLException e) {
@@ -90,6 +92,7 @@ public class ConvDAO {
                         rs.getString("CID"),
                         rs.getString("Titre"),
                         rs.getBoolean("Privee"),
+                        rs.getBoolean("Duo"),
                         rs.getString("Owner"),
                         rs.getDate("DateCreation").toLocalDate()
                 );

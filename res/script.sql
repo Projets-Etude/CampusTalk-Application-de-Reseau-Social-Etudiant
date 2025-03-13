@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Conversation (
     CID VARCHAR(50),
     Titre VARCHAR(100) NOT NULL,
     Privee BOOLEAN,
+    Duo BOOLEAN,
     Owner VARCHAR(50),
     DateCreation DATE,
     CONSTRAINT PK_Conversation PRIMARY KEY (CID),

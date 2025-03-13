@@ -6,13 +6,16 @@ public class Conv {
     private String cno;
     private String titre;
     private boolean privee;
+
+    private boolean duo;
     private String owner;
     private LocalDate date;
 
-    public Conv(String cno, String titre, boolean privee, String owner, LocalDate date) {
+    public Conv(String cno, String titre, boolean privee, boolean duo, String owner, LocalDate date) {
         this.cno = cno;
         this.titre = titre;
         this.privee = privee;
+        this.duo = duo;
         this.owner = owner;
         this.date = date;
     }
@@ -27,6 +30,14 @@ public class Conv {
 
     public String getTitre() {
         return titre;
+    }
+
+    public boolean isDuo(){
+        return duo;
+    }
+
+    public void setDuo(boolean duo){
+        this.duo = duo;
     }
 
     public void setTitre(String titre) {
@@ -80,7 +91,4 @@ public class Conv {
             url, titre, owner, privacyStatusClass, privacyStatusText, date
         );
     }
-    
-    
-    
 }
