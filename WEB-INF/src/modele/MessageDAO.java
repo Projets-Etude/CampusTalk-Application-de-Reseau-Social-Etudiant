@@ -36,23 +36,23 @@ public class MessageDAO {
         List<Message> messages = new ArrayList<>();
         String query = "SELECT * FROM message WHERE CID = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, cid);  // Le paramètre CID est passé ici
+            ps.setString(1, cid); 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                // Création d'un objet Message pour chaque ligne retournée par la requête
+
                 Message message = new Message(
-                    rs.getString("MID"),          // Identifiant du message
-                    rs.getString("Contenue"),     // Contenu du message
-                    rs.getDate("DateEnvoie").toLocalDate(),  // Date d'envoi du message
-                    rs.getString("Auteur")       // Auteur du message
+                    rs.getString("MID"),
+                    rs.getString("Contenue"),
+                    rs.getDate("DateEnvoie").toLocalDate(),  
+                    rs.getString("Auteur")
                 );
-                messages.add(message);  // Ajout du message à la liste
+                messages.add(message);
             }
             con.close();
         } catch (SQLException e) {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
-        return messages;  // Retourne la liste de messages trouvés
+        return messages; 
     }
     
 

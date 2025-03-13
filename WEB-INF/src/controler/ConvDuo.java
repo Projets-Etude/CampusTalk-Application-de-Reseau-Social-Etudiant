@@ -3,18 +3,16 @@ package controler;
 import modele.ConvDAO;
 
 public class ConvDuo {
-    private String cid;      // ID de la conversation
-    private String upseudo1; // Premier utilisateur
-    private String upseudo2; // Deuxième utilisateur
+    private String cid; 
+    private String upseudo1; 
+    private String upseudo2; 
 
-    // Constructeur
     public ConvDuo(String cid, String upseudo1, String upseudo2) {
         this.cid = cid;
         this.upseudo1 = upseudo1;
         this.upseudo2 = upseudo2;
     }
 
-    // Getters et Setters
     public String getCid() {
         return cid;
     }
@@ -44,8 +42,8 @@ public class ConvDuo {
         String privacyStatusClass = "private";
         String privacyStatusText = "Privée";
         
-        // Lien vers la page JSP, ici tu peux ajuster l'URL selon ton besoin
-        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cid;  // On suppose que chaque conversation a un id unique
+
+        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cid;
         ConvDAO convDAO = new ConvDAO();
         Conv conv = convDAO.findByID(cid);
         return String.format(

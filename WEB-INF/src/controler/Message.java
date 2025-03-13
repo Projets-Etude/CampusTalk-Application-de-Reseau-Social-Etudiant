@@ -50,11 +50,8 @@ public class Message {
     @Override
     public String toString() {
 
-    // Déterminer le type de message (utilisateur ou admin)
     String messageClass = this.auteur.equals("admin") ? "admin" : "user";
     
-    
-    // Créer la structure HTML
     return "<div class=\"message " + messageClass + "\">\n" +
            "    <div class=\"author\">" + auteur + "</div>\n" +
            "    <div class=\"content\">" + contenue + "</div>\n" +

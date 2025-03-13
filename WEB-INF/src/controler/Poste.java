@@ -11,7 +11,6 @@ public class Poste {
     private boolean visibiliteRestreinte;
     private String uPseudo;
 
-    // Constructeur
     public Poste(String posteID, String contenu, Date datePoste, boolean visibiliteRestreinte, String uPseudo) {
         this.posteID = posteID;
         this.contenu = contenu;
@@ -20,7 +19,6 @@ public class Poste {
         this.uPseudo = uPseudo;
     }
 
-    // Getters
     public String getPosteID() {
         return posteID;
     }
@@ -41,7 +39,6 @@ public class Poste {
         return uPseudo;
     }
 
-    // Setters
     public void setPosteID(String posteID) {
         this.posteID = posteID;
     }
@@ -73,7 +70,7 @@ public class Poste {
         (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
         "<div class='tweet-footer'>" +
             "<button class='followed-button'>Suivi</button>" +
-            // Bouton Like
+
             "<form action='LikePosteServlet' method='post' class='like-form'>" +
                 "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
                 "<button type='submit' class='like-button " + ( hasLike ? "liked" : "") + "'>" +
@@ -94,7 +91,7 @@ public class Poste {
                 "<div class='tweet-content'>" + this.getContenu() + "</div>" +
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
                 "<div class='tweet-footer'>" +
-                    // Bouton Like
+
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
                         "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
@@ -116,7 +113,7 @@ public class Poste {
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
                 "<div class='tweet-footer'>" +
                     "<button class='followed-button'>Suivi</button>" +
-                    // Bouton Like
+
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
                         "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
@@ -138,7 +135,7 @@ public class Poste {
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
                 "<div class='tweet-footer'>" +
                     "<a href='suivreUtilisateur?utilisateur=" + this.getUPseudo() + "' class='follow-button'>Suivre</a>" +
-                    // Bouton Like
+
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
                         "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +

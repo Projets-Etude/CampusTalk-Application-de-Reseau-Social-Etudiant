@@ -14,7 +14,7 @@ public class AbonnementDAO {
         ds = new DS();
     }
 
-    // Créer un abonnement
+
     public void create(Abonnement abonnement){
         String query = "INSERT INTO Abonnement (AbonnementID, Utilisateur1, Utilisateur2, DateAbonnement) VALUES (?, ?, ?, ?)";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
@@ -29,7 +29,7 @@ public class AbonnementDAO {
         }
     }
 
-    // Récupérer tous les abonnements
+
     public List<Abonnement> findAll() {
         List<Abonnement> abonnements = new ArrayList<>();
         String query = "SELECT * FROM Abonnement";
@@ -51,7 +51,7 @@ public class AbonnementDAO {
         return abonnements;
     }
 
-    // Trouver un abonnement par ID
+
     public Abonnement findByID(String abonnementID){
         Abonnement abonnement = null;
         String query = "SELECT * FROM Abonnement WHERE AbonnementID = ?";
@@ -73,7 +73,7 @@ public class AbonnementDAO {
         return abonnement;
     }
 
-    // Supprimer un abonnement par ID
+
     public void deleteByID(String abonnementID){
         String query = "DELETE FROM Abonnement WHERE AbonnementID = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
@@ -86,7 +86,7 @@ public class AbonnementDAO {
         
     }
 
-    // Vérifier si un abonnement existe entre deux utilisateurs
+
     public boolean exists(String utilisateur1, String utilisateur2) {
         String query = "SELECT COUNT(*) FROM Abonnement WHERE (Utilisateur1 = ? AND Utilisateur2 = ?) OR (Utilisateur1 = ? AND Utilisateur2 = ?)";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
@@ -105,7 +105,7 @@ public class AbonnementDAO {
         return false;
     }
 
-    // Méthode pour récupérer tous les abonnements d'un utilisateur (par pseudo)
+
     public List<Abonnement> findByUserPseudo(String pseudo) {
         List<Abonnement> abonnements = new ArrayList<>();
         String query = "SELECT * FROM Abonnement WHERE Utilisateur1 = ? OR Utilisateur2 = ?";

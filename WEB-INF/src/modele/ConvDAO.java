@@ -56,7 +56,7 @@ public class ConvDAO {
                        "WHERE (User1 = ? AND User2 = ?) OR (User1 = ? AND User2 = ?)";
     
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
-            // Paramétrer les utilisateurs
+
             ps.setString(1, user1);
             ps.setString(2, user2);
             ps.setString(3, user2);

@@ -13,7 +13,7 @@ public class LikeUnlikePoste extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        // Récupérer la session et vérifier si l'utilisateur est connecté
+
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("login") == null) {
             res.sendRedirect("login.jsp");
@@ -28,14 +28,13 @@ public class LikeUnlikePoste extends HttpServlet {
 
         LikePosteDAO likePosteDAO = new LikePosteDAO();
 
-        // Vérifier si l'utilisateur a déjà liké ce poste
         if (likePosteDAO.hasLiked(posteID, userPseudo)) {
             likePosteDAO.removeLike(posteID, userPseudo);
         } else {
             likePosteDAO.addLike(posteID, userPseudo);
         }
 
-        // Redirection vers la page précédente
+
         String referer = req.getHeader("Referer");
         res.sendRedirect(referer != null ? referer : "accueil.jsp");
     }

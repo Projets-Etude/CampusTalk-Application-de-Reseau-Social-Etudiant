@@ -74,8 +74,7 @@ public class Conv {
         String privacyStatusClass = this.privee ? "private" : "public";
         String privacyStatusText = this.privee ? "Privée" : "Publique";
         
-        // Lien vers la page JSP, ici tu peux ajuster l'URL selon ton besoin
-        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cno;  // On suppose que chaque conversation a un id unique
+        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cno;
         
         return String.format(
             "<div class=\"conversation-card\">\n" +

@@ -9,7 +9,6 @@ public class Abonnement {
     private String utilisateur2;
     private LocalDate dateAbonnement;
 
-    // Constructeur
     public Abonnement(String abonnementID, String utilisateur1, String utilisateur2, LocalDate dateAbonnement) {
         this.abonnementID = abonnementID;
         this.utilisateur1 = utilisateur1;
@@ -17,7 +16,6 @@ public class Abonnement {
         this.dateAbonnement = dateAbonnement;
     }
 
-    // Getters et Setters
     public String getAbonnementID() {
         return abonnementID;
     }

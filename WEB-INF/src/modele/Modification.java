@@ -71,12 +71,10 @@ public class Modification extends HttpServlet {
         }
         User doneUpdate = userDAO.updateUser(pseudo, email, prenom, nom, anniv, description, mdp, ancienPseudo);
         if(doneUpdate != null){
-            System.out.println("oui");
             session.setAttribute("login", doneUpdate);
             res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
         }else{
             res.sendRedirect("/sae-s4.a02.1/accueil.jsp");
-            System.out.println("non");
         }
     }
     }
