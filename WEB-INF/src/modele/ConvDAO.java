@@ -105,6 +105,36 @@ public class ConvDAO {
         return convs;
     }
 
+    public void deleteDuoConversation(String upseudo1, String upseudo2) {
+        String queryDeleteDuo = "DELETE FROM ConversationDuo WHERE (User1 = ? AND User2 = ?) OR (User1 = ? AND User2 = ?)";
+        String queryDeleteConversation = "DELETE FROM Conversation WHERE CID IN (SELECT CID FROM ConversationDuo WHERE (User1 = ? AND User2 = ?) OR (User1 = ? AND User2 = ?))";
+    
+        try (Connection con = ds.getConnection()) {
+            try (PreparedStatement psDuo = con.prepareStatement(queryDeleteDuo)) {
+                psDuo.setString(1, upseudo1);
+                psDuo.setString(2, upseudo2);
+                psDuo.setString(3, upseudo2);  
+                psDuo.setString(4, upseudo1); 
+                psDuo.executeUpdate();
+            }
+            
+            // Suppression de la conversation dans la table Conversation
+            try (PreparedStatement psConv = con.prepareStatement(queryDeleteConversation)) {
+                psConv.setString(1, upseudo1);
+                psConv.setString(2, upseudo2);
+                psConv.setString(3, upseudo2);  
+                psConv.setString(4, upseudo1);  
+                psConv.executeUpdate();
+            }
+    
+            // Commit de la transaction
+            con.close();
+        } catch (SQLException e) {
+            out.println("Erreur SQL lors de la suppression de la conversation duo : " + e.getMessage());
+        }
+    }
+    
+
     public List<ConvDuo> findAllDuo() {
         List<ConvDuo> convDuoList = new ArrayList<>();
         String query = "SELECT cd.CID, cd.User1, cd.User2 " +

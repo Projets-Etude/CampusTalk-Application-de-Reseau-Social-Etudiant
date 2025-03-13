@@ -1,6 +1,7 @@
 package controler;
 
 import modele.AbonnementDAO;
+import modele.ConvDAO;
 import modele.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,6 +27,8 @@ public class SupprimeAbo extends HttpServlet {
         User user = userDAO.findByID(user1);
 
         AbonnementDAO aboDAO = new AbonnementDAO();
+        ConvDAO convDAO = new ConvDAO();
+        convDAO.deleteDuoConversation(user1, currentUser.getUPseudo());
         Abonnement abonnement = aboDAO.findByUsers(currentUser.getUPseudo(), user.getUPseudo());
 
         aboDAO.deleteByID(abonnement.getAbonnementID());
