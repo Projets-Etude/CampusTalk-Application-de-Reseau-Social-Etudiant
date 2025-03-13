@@ -118,7 +118,6 @@ public class ConvDAO {
                 psDuo.executeUpdate();
             }
             
-            // Suppression de la conversation dans la table Conversation
             try (PreparedStatement psConv = con.prepareStatement(queryDeleteConversation)) {
                 psConv.setString(1, upseudo1);
                 psConv.setString(2, upseudo2);
@@ -126,8 +125,7 @@ public class ConvDAO {
                 psConv.setString(4, upseudo1);  
                 psConv.executeUpdate();
             }
-    
-            // Commit de la transaction
+
             con.close();
         } catch (SQLException e) {
             out.println("Erreur SQL lors de la suppression de la conversation duo : " + e.getMessage());

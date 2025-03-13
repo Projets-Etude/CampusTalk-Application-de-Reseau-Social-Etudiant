@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+
 @WebServlet("/createPoste")
 public class CreatePoste extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -20,14 +23,19 @@ public class CreatePoste extends HttpServlet {
 
         String contenue = req.getParameter("contenu");
         String isPrive = req.getParameter("prive");
+        CharSequenceTranslator cst = StringEscapeUtils.ESCAPE_HTML4;
+        
+        contenue = cst.translate(contenue);
+
         if(isPrive == null){
             isPrive = "null";
         }
+
         boolean isPrivate = false;
         if(isPrive.equals("on")){
             isPrivate = true;
         }
-        System.err.println(isPrive);
+
         HttpSession session = req.getSession(true);
         User auteur = (User) session.getAttribute("login");
         PosteDAO posteDAO = new PosteDAO();

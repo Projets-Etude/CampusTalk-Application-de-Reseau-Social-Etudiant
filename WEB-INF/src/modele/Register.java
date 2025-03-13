@@ -2,6 +2,9 @@ package modele;
 
 import java.io.IOException;
 
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+
 import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,6 +26,12 @@ public class Register extends HttpServlet {
         String anniv  = req.getParameter("anniv");
         String email  = req.getParameter("email");
         String mdp  = req.getParameter("mdp");
+        CharSequenceTranslator cst = StringEscapeUtils.ESCAPE_HTML4;
+        pseudo = cst.translate(pseudo);
+        prenom = cst.translate(prenom);
+        nom = cst.translate(nom);
+        email = cst.translate(email);
+        mdp = cst.translate(mdp);
         User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp);
 
         if(user != null){
