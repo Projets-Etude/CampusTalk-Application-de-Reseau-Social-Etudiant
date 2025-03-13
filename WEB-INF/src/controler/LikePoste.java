@@ -26,12 +26,5 @@ public class LikePoste {
         this.uPseudo = uPseudo;
     }
 
-    @Override
-    public String toString() {
-        return "LikePoste{" +
-                "posteID='" + posteID + '\'' +
-                ", uPseudo='" + uPseudo + '\'' +
-                '}';
-    }
 }
 

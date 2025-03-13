@@ -3,7 +3,7 @@
         "WEB-INF\\src"
     ],
     "java.project.referencedLibraries": [
-        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\postgresql-42.7.4.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\commons-lang3-3.17.0.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jsp-api.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-util-scan.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-api.jar",
@@ -25,7 +25,9 @@
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-util.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-ja.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-coyote.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\commons-text-1.13.0.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\jasper.jar",
+        "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\postgresql-42.7.4.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-i18n-ru.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\tomcat-dbcp.jar",
         "c:\\Users\\guisl\\Desktop\\tomcat\\apache-tomcat-10.1.36\\lib\\catalina.jar",

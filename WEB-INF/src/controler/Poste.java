@@ -64,6 +64,7 @@ public class Poste {
     }
 
     public String getPosteSuivi(String userPseudo, LikePosteDAO likePosteDAO){
+        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
         return "<div class='tweet'>" +
         "<div class='tweet-header'>" +
             "<strong>" + this.getUPseudo() + "</strong>" +
@@ -76,8 +77,8 @@ public class Poste {
             // Bouton Like
             "<form action='LikePosteServlet' method='post' class='like-form'>" +
                 "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
-                    (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                "<button type='submit' class='like-button " + ( hasLike ? "liked" : "") + "'>" +
+                    (hasLike ? "💔 Unlike" : "❤️ Like") +
                 "</button>" +
             "</form>" +
         "</div>" +
@@ -85,6 +86,7 @@ public class Poste {
     }
 
     public String getPosteCurrentUser(String userPseudo, LikePosteDAO likePosteDAO){
+        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
                     "<strong>" + this.getUPseudo() + "</strong>" +
@@ -96,8 +98,8 @@ public class Poste {
                     // Bouton Like
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
-                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
+                            (hasLike ? "💔 Unlike" : "❤️ Like") +
                         "</button>" +
                     "</form>" +
                 "</div>" +
@@ -105,6 +107,7 @@ public class Poste {
     }
 
     public String getPosteSuivre(String userPseudo, LikePosteDAO likePosteDAO){
+        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
                     "<strong>" + this.getUPseudo() + "</strong>" +
@@ -117,8 +120,8 @@ public class Poste {
                     // Bouton Like
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
-                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
+                            (hasLike ? "💔 Unlike" : "❤️ Like") +
                         "</button>" +
                     "</form>" +
                 "</div>" +
@@ -126,6 +129,7 @@ public class Poste {
     }
 
     public String getPosteSuivreElse(String userPseudo, LikePosteDAO likePosteDAO){
+        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
                     "<strong>" + this.getUPseudo() + "</strong>" +
@@ -138,8 +142,8 @@ public class Poste {
                     // Bouton Like
                     "<form action='LikePosteServlet' method='post' class='like-form'>" +
                         "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "liked" : "") + "'>" +
-                            (likePosteDAO.hasLiked(this.getPosteID(), userPseudo) ? "💔 Unlike" : "❤️ Like") +
+                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
+                            (hasLike ? "💔 Unlike" : "❤️ Like") +
                         "</button>" +
                     "</form>" +
                 "</div>" +

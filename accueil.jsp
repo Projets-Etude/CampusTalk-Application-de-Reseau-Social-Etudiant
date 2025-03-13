@@ -75,9 +75,9 @@
                 out.println("<label for=\"password\">Mot de passe (Actuel : "+ user.getMdp() +")</label>");
                 out.println("<input type=\"password\" id=\"mdp\" name=\"mdp\" placeholder=\"Nouveau Mot De Passe\">");
                 out.println("<label for=\"prenom\">Prénom (Actuel : "+ user.getPrenom() +")</label>");
-                out.println("<input type=\"text\" id=\"nom\" name=\"nom\" placeholder=\"Entrez votre Prenom\">");
+                out.println("<input type=\"text\" id=\"nom\" name=\"prenom\" placeholder=\"Entrez votre Prenom\">");
                 out.println("<label for=\"nom\">Nom (Actuel : "+ user.getNom() +")</label>");
-                out.println("<input type=\"text\" id=\"prenom\" name=\"prenom\" placeholder=\"Entrez votre Nom\">");
+                out.println("<input type=\"text\" id=\"prenom\" name=\"nom\" placeholder=\"Entrez votre Nom\">");
                 out.println("<label for=\"anniv\">Anniversaire (Actuelle : "+ user.getAnniversaire().toString() +")</label>");
                 out.println("<input type=\"date\" id=\"anniv\" name=\"anniv\" placeholder=\"Nouvelle Date de Naissance\">");
                 out.println("<label for=\"description\">Description</label>");
@@ -129,9 +129,11 @@
                     List<Poste> listPoste = posteDAO.findAll();
                     AbonnementDAO abonnementDAO = new AbonnementDAO();
                     LikePosteDAO likePosteDAO = new LikePosteDAO();
+                    
 
                     for(Poste poste : listPoste){
-                        if(abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo()) && poste.isVisibiliteRestreinte()){
+                        boolean exists = abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo());
+                        if(exists && poste.isVisibiliteRestreinte()){
                             //BOUTON SUIVI
                             out.println(poste.getPosteSuivi(user.getUPseudo(),likePosteDAO));
                         }
@@ -140,7 +142,7 @@
                         } else if(poste.getUPseudo().equals(user.getUPseudo())) {
                             // CURRENT UTILISATEUR DONC PAS BOUTON SUIVRE
                             out.println(poste.getPosteCurrentUser(user.getUPseudo(),likePosteDAO));
-                        } else if(abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo())) {
+                        } else if(exists) {
                             // SUIVRE UN UTILISATEUR
                             out.println(poste.getPosteSuivre(user.getUPseudo(),likePosteDAO));
                         } else {

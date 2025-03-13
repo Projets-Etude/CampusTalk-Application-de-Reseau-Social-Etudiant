@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.apache.commons.text.*;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+
 import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,6 +45,15 @@ public class Modification extends HttpServlet {
         String description = req.getParameter("description");
         String mdp  = req.getParameter("mdp");
         UserDAO userDAO = new UserDAO();
+
+        CharSequenceTranslator cst = StringEscapeUtils.ESCAPE_HTML4;
+        pseudo = cst.translate(pseudo);
+        prenom = cst.translate(prenom);
+        nom = cst.translate(nom);
+        email = cst.translate(email);
+        description = cst.translate(description);
+        mdp = cst.translate(mdp);
+
         String ancienPseudo = "";
         if(user != null){
             ancienPseudo = user.getUPseudo();
