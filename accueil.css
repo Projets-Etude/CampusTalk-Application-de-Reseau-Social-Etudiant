@@ -397,7 +397,6 @@ textarea {
     font-weight: bold;
     border-radius: 20px;
     margin-right: 10px;
-    transition: all 0.3s ease;
 }
 
 .create-conv-btn:hover {
@@ -407,6 +406,30 @@ textarea {
 }
 
 .create-conv-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.create-new-conv {
+    width: 240px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.create-new-conv:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.create-new-conv:active {
     transform: translateY(0);
     box-shadow: none;
 }
@@ -581,3 +604,29 @@ textarea {
 .rain div:nth-child(18) { left: 73%; animation-delay: 0.55s; }
 .rain div:nth-child(19) { left: 86%; animation-delay: 0.85s; }
 .rain div:nth-child(20) { left: 12%; animation-delay: 0.95s; }
+
+.user-list {
+    margin: 0 auto;
+    width: 150px;
+    height: 100px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+.user-list label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.conversation-creation{
+    margin: 0 auto;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    gap: 2vw;
+}

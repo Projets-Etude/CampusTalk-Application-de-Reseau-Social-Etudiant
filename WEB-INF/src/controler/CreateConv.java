@@ -10,30 +10,61 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.Arrays;
 
 @WebServlet("/createConversation")
 public class CreateConv extends HttpServlet {
-    @SuppressWarnings("unused")
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         ConvDAO convDAO = new ConvDAO();
-        String user1 = req.getParameter("utilisateur");
-        UserDAO userDAO = new UserDAO();
         HttpSession session = req.getSession(true);
-        User currentUser = (User ) session.getAttribute("login");
-        if(currentUser == null){
+        User currentUser = (User) session.getAttribute("login");
+
+        if (currentUser == null) {
             res.sendRedirect("login.html");
+            return;
         }
-        String existConversationId = convDAO.findDuoConversationID(user1, currentUser.getUPseudo());
-        if(existConversationId != null){
-            res.sendRedirect("conversation.jsp?id=" + existConversationId);
-        }else{
-            String cno = UUID.randomUUID().toString();
-            Conv conv = new Conv(cno, "Conversation de " + user1 + " et de " + currentUser.getPrenom(), true, true, currentUser.getUPseudo(), LocalDate.now());
-            
-            convDAO.createDuoConversation(conv,currentUser.getUPseudo(), user1);
-            res.sendRedirect("conversation.jsp?id=" + cno);
+
+        String convName = req.getParameter("conv-name");
+
+        String[] usersArray = req.getParameterValues("abonnes");
+
+        boolean isPrivate = req.getParameter("conv-private") != null;
+
+        if (usersArray == null || usersArray.length == 0) {
+            res.sendRedirect("error.jsp?message=Aucun utilisateur sélectionné.");
+            return;
+        }
+
+        List<String> usersList = Arrays.asList(usersArray);
+
+        boolean isDuo = usersList.size() == 1;
+
+        if (isDuo) {
+            String user1 = usersList.get(0);
+            String existingConvID = convDAO.findDuoConversationID(user1, currentUser.getUPseudo());
+
+            if (existingConvID != null) {
+                res.sendRedirect("conversation.jsp?id=" + existingConvID);
+                return;
+            }
+
+            String convID = UUID.randomUUID().toString();
+            Conv conv = new Conv(convID, "Conversation de " + currentUser.getPrenom() + " et " + user1, isPrivate, true, currentUser.getUPseudo(), LocalDate.now());
+
+            System.out.println("test");
+            convDAO.createDuoConversation(conv, currentUser.getUPseudo(), user1);
+
+            res.sendRedirect("conversation.jsp?id=" + convID);
+        } else {
+            String convID = UUID.randomUUID().toString();
+            Conv conv = new Conv(convID, convName, isPrivate, false, currentUser.getUPseudo(), LocalDate.now());
+            convDAO.createGroupConversation(conv, currentUser.getUPseudo(), usersList);
+            res.sendRedirect("conversation.jsp?id=" + convID);
         }
     }
 }

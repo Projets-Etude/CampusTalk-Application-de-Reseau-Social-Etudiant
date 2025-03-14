@@ -48,7 +48,7 @@ public class Abonnement {
         this.dateAbonnement = dateAbonnement;
     }
 
-    
+
     public String toString(String currentUser) {
         UserDAO userDAO = new UserDAO();
         User user1 = userDAO.findByID(utilisateur1);
@@ -63,7 +63,7 @@ public class Abonnement {
                    "<p><strong>Prénom :</strong> " + user2.getPrenom() + "</p>" +
                "</div>" +
                "<div class=\"friend-remove\">" + 
-                    "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user2.getUPseudo() + "\" class=\"create-conv-btn\">Conversation</a>" +
+                    "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user2.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>" +
                    "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user2.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
                "</div>" +
            "</div>";
@@ -78,7 +78,7 @@ public class Abonnement {
                    "<p><strong>Prénom :</strong> " + user1.getPrenom() + "</p>" +
                "</div>" +
                "<div class=\"friend-remove\">" +
-                "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user1.getUPseudo() + "\" class=\"create-conv-btn\">Conversation</a>"+
+                "<a href=\"/sae-s4.a02.1/createConversation?utilisateur=" + user1.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>"+
                    "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user1.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
                "</div>" +
            "</div>";

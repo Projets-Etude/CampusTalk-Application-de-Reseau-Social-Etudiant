@@ -219,4 +219,39 @@ public class ConvDAO {
             out.println("Erreur SQL : " + e.getMessage());
         }
     }
+
+    public void createGroupConversation(Conv conv, String creator, List<String> users) {
+        String insertConvQuery = "INSERT INTO Conversation (CID, Titre, Privee, Duo, Owner, DateCreation) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertParticipationQuery = "INSERT INTO Participation (UPseudo, CID, DateEntree) VALUES (?, ?, CURRENT_DATE)";
+
+        try (Connection con = ds.getConnection()) {
+            try (PreparedStatement psConv = con.prepareStatement(insertConvQuery)) {
+                psConv.setString(1, conv.getCno());
+                psConv.setString(2, conv.getTitre());
+                psConv.setBoolean(3, conv.isPrivee());
+                psConv.setBoolean(4, conv.isDuo());
+                psConv.setString(5, creator);
+                psConv.setDate(6, Date.valueOf(conv.getDate()));
+                psConv.executeUpdate();
+            }
+
+            try (PreparedStatement psPart = con.prepareStatement(insertParticipationQuery)) {
+                for (String user : users) {
+                    psPart.setString(1, user);
+                    psPart.setString(2, conv.getCno());
+                    psPart.executeUpdate();
+                }
+            }
+
+            try (PreparedStatement psPart = con.prepareStatement(insertParticipationQuery)) {
+                psPart.setString(1, creator);
+                psPart.setString(2, conv.getCno());
+                psPart.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de la création de la conversation de groupe : " + e.getMessage());
+        }
+    }
+
 }

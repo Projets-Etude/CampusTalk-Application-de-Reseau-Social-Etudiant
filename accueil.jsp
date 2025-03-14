@@ -67,6 +67,45 @@
             }
             %>
             </div>
+            <label for="modal-create-conv" class="create-new-conv">Créer une conversation</label>
+        </div>
+    </div>
+
+    <input type="radio" id="modal-create-conv" name="modal">
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
+            <h2>Créer une conversation</h2>
+            <form action="/sae-s4.a02.1/createConversation" method="get" class="conversation-creation">
+                <label for="conv-name">Nom de la conversation</label>
+                <input type="text" id="conv-name" name="conv-name" required>
+
+                <label for="conv-name">Personnes à ajouter</label>
+                <div class="user-list">
+                    <%
+                        if (user != null) {
+                            AbonnementDAO abonnementDAO = new AbonnementDAO();
+                            List<Abonnement> listAbonnement = abonnementDAO.findByUserPseudo(user.getUPseudo());
+
+                            for (Abonnement abo : listAbonnement) {
+                                String pseudo = abo.getUtilisateur1().equals(user.getUPseudo()) ? abo.getUtilisateur2() : abo.getUtilisateur1();
+                    %>
+                    <label>
+                        <input type="checkbox" name="abonnes" value="<%= pseudo %>"> <%= pseudo %>
+                    </label><br>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+
+                <label for="conv-private">
+                    <input type="checkbox" id="conv-private" name="conv-private">
+                    Conversation privée
+                </label>
+
+                <button type="submit">Créer</button>
+            </form>
         </div>
     </div>
 
