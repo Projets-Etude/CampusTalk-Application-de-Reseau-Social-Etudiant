@@ -9,7 +9,8 @@
     <meta http-equiv="refresh" content="10">
     <link rel="stylesheet" href="conversation.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv, modele.MessageDAO, controler.Message, java.time.format.DateTimeFormatter, java.time.LocalDateTime" %>
+    <%@ page import="java.util.*, controler.User, controler.Poste, controler.Abonnement, controler.Conv, controler.Message, java.time.format.DateTimeFormatter, java.time.LocalDateTime" %>
+    <%@ page import="modele.*" %>
 </head>
 <body>
     <%
@@ -37,44 +38,64 @@
         </nav>
     </header>
 
-    <div class="conversation-container">
-        <header class="conversation-header">
-        <%
-            out.println("<h1>" + conversation.getTitre() + "</h1>");
-        %>
-        </header>
-        <% 
-        if(user != null){
-            
-            if (conversation != null) {
-                out.println("<div style=\"position:fixed;\">Conversation : " + conversation.getTitre() + "</div>");
-                
-                MessageDAO messageDAO = new MessageDAO();
-                List<Message> messages = messageDAO.findByCID(convId);
-                for (Message message : messages) {
-                    // On vérifie si l'auteur du message est l'utilisateur connecté
-                    String positionClass = message.getAuteur().equals(user.getUPseudo()) ? "right" : "left";
-                    String bubbleClass = message.getAuteur().equals(user.getUPseudo()) ? "blue" : "";
+    <div class="conversation-main">
+        <div class="conversation-container">
+            <header class="conversation-header">
+            <%
+                out.println("<h1>" + conversation.getTitre() + "</h1>");
+            %>
+            </header>
+            <%
+            if(user != null){
 
-                    String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                if (conversation != null) {
+                    out.println("<div style=\"position:fixed;\">Conversation : " + conversation.getTitre() + "</div>");
 
-                    out.println("<div class='message-container " + positionClass + "'>");
-                    out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
-                    out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
-                    out.println("<span class='message-date'>" + formattedDate + "</span>");
+                    MessageDAO messageDAO = new MessageDAO();
+                    List<Message> messages = messageDAO.findByCID(convId);
+                    for (Message message : messages) {
+                        // On vérifie si l'auteur du message est l'utilisateur connecté
+                        String positionClass = message.getAuteur().equals(user.getUPseudo()) ? "right" : "left";
+                        String bubbleClass = message.getAuteur().equals(user.getUPseudo()) ? "blue" : "";
+
+                        String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                        out.println("<div class='message-container " + positionClass + "'>");
+                        out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                        out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
+                        out.println("<span class='message-date'>" + formattedDate + "</span>");
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("Conversation non trouvée.");
+                }
+            }
+            %>
+            <form action="/sae-s4.a02.1/createMessage" method="post" class="message-form">
+                <input type="hidden" name="cid" value="<%= convId %>">
+                <textarea name="contenu" placeholder="Écrire un message..." required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+
+        </div>
+        <aside>
+            <h1>Participants</h1>
+            <%
+                ParticipationDAO pDAO = new ParticipationDAO();
+                String owner = (convDAO.findByID(request.getParameter("id"))).getOwner();
+                List<User> users = pDAO.findParticipantsByConversationId(request.getParameter("id"));
+                for(User curUser : users){
+                    out.println("<div class='member-profile'>");
+                    if(curUser.getUPseudo().equals(owner)){
+                        out.println("<h3>\uD83D\uDC51 " + curUser.getUPseudo() + "</h3>");
+                    }
+                    else{
+                        out.println("<h3>" + curUser.getUPseudo() + "</h3>");
+                    }
                     out.println("</div>");
                 }
-            } else {
-                out.println("Conversation non trouvée.");
-            }
-        }
-        %>
-        <form action="/sae-s4.a02.1/createMessage" method="post" class="message-form">
-            <input type="hidden" name="cid" value="<%= convId %>">
-            <textarea name="contenu" placeholder="Écrire un message..." required></textarea>
-            <button type="submit">Envoyer</button>
-        </form>
-
+            %>
+        </aside>
     </div>
 </body>
 </html>

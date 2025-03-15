@@ -9,6 +9,7 @@ import java.util.List;
 
 import controler.Conv;
 import controler.Participation;
+import controler.User;
 
 public class ParticipationDAO {
 
@@ -88,5 +89,40 @@ public class ParticipationDAO {
             System.out.println("Erreur SQL : " + e.getMessage());
         }
     }
-    
+
+    public List<User> findParticipantsByConversationId(String conversationId) {
+        List<User> participants = new ArrayList<>();
+        String query = "SELECT u.UPseudo, u.Email, u.Prenom, u.Nom, u.DateInscription, u.Anniversaire, u.Description, u.Mdp " +
+                "FROM Participation p " +
+                "JOIN Utilisateur u ON p.UPseudo = u.UPseudo " +
+                "WHERE p.CID = ?";
+
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setString(1, conversationId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("UPseudo"),
+                        rs.getString("Email"),
+                        rs.getString("Prenom"),
+                        rs.getString("Nom"),
+                        rs.getDate("DateInscription").toLocalDate(),
+                        rs.getDate("Anniversaire") != null ? rs.getDate("Anniversaire").toLocalDate() : null,
+                        rs.getString("Description"),
+                        rs.getString("Mdp")
+                );
+                participants.add(user);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+
+        return participants;
+    }
+
+
 }

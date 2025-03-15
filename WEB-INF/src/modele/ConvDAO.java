@@ -35,6 +35,7 @@ public class ConvDAO {
 
     public void createDuoConversation(Conv conv, String user1, String user2) {
         String insertDuoQuery = "INSERT INTO ConversationDuo (CID, User1, User2) VALUES (?, ?, ?)";
+        String insertParticipationQuery = "INSERT INTO Participation (UPseudo, CID, DateEntree) VALUES (?, ?, CURRENT_DATE)";
     
         try (Connection con = ds.getConnection()) {
             this.create(conv);
@@ -45,10 +46,25 @@ public class ConvDAO {
                 psDuo.setString(3, user2);
                 psDuo.executeUpdate();
             }
+
+            try (PreparedStatement psPart = con.prepareStatement(insertParticipationQuery)) {
+                psPart.setString(1, user1);
+                psPart.setString(2, conv.getCno());
+                psPart.executeUpdate();
+            }
+
+
+            try (PreparedStatement psPart = con.prepareStatement(insertParticipationQuery)) {
+                psPart.setString(1, user2);
+                psPart.setString(2, conv.getCno());
+                psPart.executeUpdate();
+            }
     
         } catch (SQLException e) {
             out.println("Erreur SQL : " + e.getMessage());
         }
+
+
     }
 
     public String findDuoConversationID(String user1, String user2) {

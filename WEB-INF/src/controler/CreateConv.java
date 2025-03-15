@@ -31,20 +31,15 @@ public class CreateConv extends HttpServlet {
 
         String convName = req.getParameter("conv-name");
 
+        boolean duo = req.getParameter("duo") != null;
+
         String[] usersArray = req.getParameterValues("abonnes");
 
         boolean isPrivate = req.getParameter("conv-private") != null;
 
-        if (usersArray == null || usersArray.length == 0) {
-            res.sendRedirect("error.jsp?message=Aucun utilisateur sélectionné.");
-            return;
-        }
-
         List<String> usersList = Arrays.asList(usersArray);
 
-        boolean isDuo = usersList.size() == 1;
-
-        if (isDuo) {
+        if (duo) {
             String user1 = usersList.get(0);
             String existingConvID = convDAO.findDuoConversationID(user1, currentUser.getUPseudo());
 
