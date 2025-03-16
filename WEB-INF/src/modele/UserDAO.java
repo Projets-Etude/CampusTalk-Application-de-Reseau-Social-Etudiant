@@ -16,8 +16,8 @@ public class UserDAO {
         ds = new DS();
     }
 
-    public User create(String UPseudo, String email, String prenom, String nom, String anniv, String description, String mdp){
-        String query = "insert into utilisateur values (?,?,?,?,'"+LocalDate.now()+"',?,null,?)";
+    public User create(String UPseudo, String email, String prenom, String nom, String anniv, String description, String mdp, byte[] photo){
+        String query = "insert into utilisateur values (?,?,?,?,'"+LocalDate.now()+"',?,null,?,?)";
         try(Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)){
             ps.setString(1, UPseudo);
             ps.setString(2, email);
@@ -25,10 +25,11 @@ public class UserDAO {
             ps.setString(4, nom);
             ps.setDate(5, Date.valueOf(LocalDate.parse(anniv)));
             ps.setString(6, mdp);
+            ps.setBytes(7, photo);
             int index = ps.executeUpdate();
             con.close();
             if(index == 1){
-                return new User(UPseudo, email, prenom, nom, LocalDate.now(), LocalDate.parse(anniv), description, mdp);
+                return new User(UPseudo, email, prenom, nom, LocalDate.now(), LocalDate.parse(anniv), description, mdp, photo);
             }
             con.close();
             return null;
@@ -47,7 +48,7 @@ public class UserDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));
+                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"), rs.getBytes("photo"));
             }
             con.close();
         } catch (SQLException e) {
@@ -66,7 +67,7 @@ public class UserDAO {
             ps.setString(2, mdp);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"));
+                user = new User(rs.getString("UPseudo"), rs.getString("email"), rs.getString("prenom"), rs.getString("nom"), rs.getDate("dateInscription").toLocalDate(), rs.getDate("anniversaire").toLocalDate(), rs.getString("description"), rs.getString("mdp"), rs.getBytes("photo"));
             }
             con.close();
         } catch (SQLException e) {
@@ -77,9 +78,9 @@ public class UserDAO {
         return user;
     }
 
-    public User updateUser(String pseudo, String email, String prenom, String nom, String anniv, String description, String mdp, String ancienPseudo){
+    public User updateUser(String pseudo, String email, String prenom, String nom, String anniv, String description, String mdp, byte[] photo, String ancienPseudo){
         UserDAO userDAO = new UserDAO();
-        String query = "update utilisateur set UPseudo = ? , Email = ? , Prenom = ? , Nom = ? , Anniversaire = ? , Description = ? , Mdp = ?  where UPseudo = ? ";
+        String query = "update utilisateur set UPseudo = ? , Email = ? , Prenom = ? , Nom = ? , Anniversaire = ? , Description = ? , Mdp = ?, Photo = ?  where UPseudo = ? ";
 
         try(Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)){
             ps.setString(1, pseudo);
@@ -89,7 +90,8 @@ public class UserDAO {
             ps.setDate(5, Date.valueOf(LocalDate.parse(anniv)));
             ps.setString(6, description);
             ps.setString(7, mdp);
-            ps.setString(8, ancienPseudo);
+            ps.setBytes(8, photo);
+            ps.setString(9, ancienPseudo);
             
             System.out.println(ps.toString());
             int index = ps.executeUpdate();
@@ -130,7 +132,8 @@ public class UserDAO {
                         rs.getDate("dateInscritption").toLocalDate(),
                         rs.getDate("anniversaire").toLocalDate(),
                         rs.getString("description"),
-                        rs.getString("mdp")
+                        rs.getString("mdp"),
+                        rs.getBytes("photo")
                 );
                 users.add(user);
             }

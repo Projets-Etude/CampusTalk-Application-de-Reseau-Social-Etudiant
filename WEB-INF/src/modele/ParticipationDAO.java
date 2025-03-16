@@ -92,7 +92,7 @@ public class ParticipationDAO {
 
     public List<User> findParticipantsByConversationId(String conversationId) {
         List<User> participants = new ArrayList<>();
-        String query = "SELECT u.UPseudo, u.Email, u.Prenom, u.Nom, u.DateInscription, u.Anniversaire, u.Description, u.Mdp " +
+        String query = "SELECT u.UPseudo, u.Email, u.Prenom, u.Nom, u.DateInscription, u.Anniversaire, u.Description, u.Mdp, u.Photo " +
                 "FROM Participation p " +
                 "JOIN Utilisateur u ON p.UPseudo = u.UPseudo " +
                 "WHERE p.CID = ?";
@@ -112,7 +112,8 @@ public class ParticipationDAO {
                         rs.getDate("DateInscription").toLocalDate(),
                         rs.getDate("Anniversaire") != null ? rs.getDate("Anniversaire").toLocalDate() : null,
                         rs.getString("Description"),
-                        rs.getString("Mdp")
+                        rs.getString("Mdp"),
+                        rs.getBytes("Photo")
                 );
                 participants.add(user);
             }

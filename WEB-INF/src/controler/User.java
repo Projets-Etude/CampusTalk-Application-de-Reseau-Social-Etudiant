@@ -11,8 +11,9 @@ public class User {
     private LocalDate anniversaire;
     private String description;
     private String mdp;
+    private byte[] photo;
 
-    public User(String UPseudo, String email, String prenom, String nom, LocalDate dateInscritption, LocalDate anniversaire, String description, String mdp) {
+    public User(String UPseudo, String email, String prenom, String nom, LocalDate dateInscritption, LocalDate anniversaire, String description, String mdp, byte[] photo) {
         this.uPseudo = UPseudo;
         this.email = email;
         this.prenom = prenom;
@@ -21,6 +22,7 @@ public class User {
         this.anniversaire = anniversaire;
         this.description = description;
         this.mdp = mdp;
+        this.photo = photo;
     }
 
     public String getUPseudo() {
@@ -85,5 +87,13 @@ public class User {
 
     public void setMdp(String mdp) {
         this.mdp = mdp;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }

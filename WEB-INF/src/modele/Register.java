@@ -1,20 +1,19 @@
 package modele;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.*;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 
 import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/register")
-
+@MultipartConfig(maxFileSize = 16177215)
 public class Register extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -32,7 +31,17 @@ public class Register extends HttpServlet {
         nom = cst.translate(nom);
         email = cst.translate(email);
         mdp = cst.translate(mdp);
-        User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp);
+
+        Part filePart = req.getPart("photo");
+        byte[] photo = null;
+
+        if (filePart != null && filePart.getSize() > 0) {
+            try (InputStream inputStream = filePart.getInputStream()) {
+                photo = inputStream.readAllBytes();
+            }
+        }
+
+        User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp, photo);
 
         if(user != null){
             HttpSession session = req.getSession(true);

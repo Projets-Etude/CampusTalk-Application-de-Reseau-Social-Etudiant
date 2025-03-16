@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversation</title>
     <link rel="stylesheet" href="accueil.css">
-    <meta http-equiv="refresh" content="10">
-    <link rel="stylesheet" href="conversation.css">
+    <link rel="stylesheet" href="conversation.css?version=51">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
     <%@ page import="java.util.*, controler.User, controler.Poste, controler.Abonnement, controler.Conv, controler.Message, java.time.format.DateTimeFormatter, java.time.LocalDateTime" %>
     <%@ page import="modele.*" %>
@@ -60,10 +59,32 @@
 
                         String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
+                        UserDAO uDAO = new UserDAO();
+                        User curUser = uDAO.findByID(message.getAuteur());
+
+                        String photoPath;
+                        if (curUser.getPhoto() != null) {
+                            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+                        } else {
+                            photoPath = "res/avatar.png";
+                        }
                         out.println("<div class='message-container " + positionClass + "'>");
-                        out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
-                        out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
-                        out.println("<span class='message-date'>" + formattedDate + "</span>");
+                        if(positionClass.equals("left")){
+                            out.println("<div class='message-info'>");
+                            out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
+                            out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
+                            out.println("<span class='message-date'>" + formattedDate + "</span>");
+                            out.println("</div>");
+                            out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                        }
+                        else{
+                            out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                            out.println("<div class='message-info'>");
+                            out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
+                            out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
+                            out.println("<span class='message-date'>" + formattedDate + "</span>");
+                            out.println("</div>");
+                        }
                         out.println("</div>");
                     }
                 } else {
@@ -86,6 +107,13 @@
                 List<User> users = pDAO.findParticipantsByConversationId(request.getParameter("id"));
                 for(User curUser : users){
                     out.println("<div class='member-profile'>");
+                    String photoPath;
+                    if (curUser.getPhoto() != null) {
+                        photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+                    } else {
+                        photoPath = "res/avatar.png";
+                    }
+                    out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
                     if(curUser.getUPseudo().equals(owner)){
                         out.println("<h3>\uD83D\uDC51 " + curUser.getUPseudo() + "</h3>");
                     }

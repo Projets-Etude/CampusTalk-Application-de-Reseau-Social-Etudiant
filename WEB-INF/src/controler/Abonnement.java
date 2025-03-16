@@ -1,6 +1,8 @@
 package controler;
 
 import java.time.LocalDate;
+import java.util.Base64;
+
 import modele.UserDAO;
 
 public class Abonnement {
@@ -53,37 +55,29 @@ public class Abonnement {
         UserDAO userDAO = new UserDAO();
         User user1 = userDAO.findByID(utilisateur1);
         User user2 = userDAO.findByID(utilisateur2);
-        if(currentUser.equals(utilisateur1)){
-            return "<div class=\"friend-profile\">" +
-               "<div class=\"friend-avatar\">" +
-                   "<img src=\"res\\avatar.png\"" + utilisateur2 + ".jpg\" alt=\"" + utilisateur2 + " Avatar\">" +
-               "</div>" +
-               "<div class=\"friend-info\">" +
-                   "<p><strong>Pseudo :</strong> " + user2.getUPseudo() + "</p>" +
-                   "<p><strong>Prénom :</strong> " + user2.getPrenom() + "</p>" +
-               "</div>" +
-               "<div class=\"friend-remove\">" + 
-                    "<a href=\"/sae-s4.a02.1/createConversation?abonnes=" + user2.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>" +
-                   "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user2.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
-               "</div>" +
-           "</div>";
 
-        }else{
-            return "<div class=\"friend-profile\">" +
-               "<div class=\"friend-avatar\">" +
-                   "<img src=\"res\\avatar.png\"" + utilisateur1 + ".jpg\" alt=\"" + utilisateur1 + " Avatar\">" +
-               "</div>" +
-               "<div class=\"friend-info\">" +
-                   "<p><strong>Pseudo :</strong> " + user1.getUPseudo() + "</p>" +
-                   "<p><strong>Prénom :</strong> " + user1.getPrenom() + "</p>" +
-               "</div>" +
-               "<div class=\"friend-remove\">" +
-                "<a href=\"/sae-s4.a02.1/createConversation?abonnes=" + user1.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>"+
-                   "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + user1.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
-               "</div>" +
-           "</div>";
+        User targetUser = currentUser.equals(utilisateur1) ? user2 : user1;
+
+        String photoPath;
+        if (targetUser.getPhoto() != null) {
+            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(targetUser.getPhoto());
+        } else {
+            photoPath = "res/avatar.png";
         }
-        
+
+        return "<div class=\"friend-profile\">" +
+                "<div class=\"friend-avatar\">" +
+                "<img src=\"" + photoPath + "\" alt=\"" + targetUser.getUPseudo() + " Avatar\">" +
+                "</div>" +
+                "<div class=\"friend-info\">" +
+                "<p><strong>Pseudo :</strong> " + targetUser.getUPseudo() + "</p>" +
+                "<p><strong>Prénom :</strong> " + targetUser.getPrenom() + "</p>" +
+                "</div>" +
+                "<div class=\"friend-remove\">" +
+                "<a href=\"/sae-s4.a02.1/createConversation?abonnes=" + targetUser.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>" +
+                "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + targetUser.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
+                "</div>" +
+                "</div>";
     }
     
     

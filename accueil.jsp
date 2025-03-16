@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsUp</title>
-    <link rel="stylesheet" href="accueil.css">
+    <link rel="stylesheet" type="text/css" href="accueil.css?version=51">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
     <%@ page import="modele.UserDAO, java.util.*, controler.User,controler.ConvDuo, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv, modele.LikePosteDAO" %>
 </head>
@@ -113,7 +113,7 @@
         <div class="modal-content">
             <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
             <h2>Profil</h2>
-            <form class="profilForm" action="/sae-s4.a02.1/modification">
+            <form method="post" class="profilForm" action="/sae-s4.a02.1/modification" enctype="multipart/form-data">
             <%
                 if(user != null){
                 out.println("<label for=\"pseudo\">Pseudo (Actuel : "+ user.getUPseudo() +")</label>");
@@ -130,7 +130,15 @@
                 out.println("<input type=\"date\" id=\"anniv\" name=\"anniv\" placeholder=\"Nouvelle Date de Naissance\">");
                 out.println("<label for=\"description\">Description</label>");
                 out.println("<textarea type=\"text\" id=\"description\" name=\"description\" rows=\"5\" placeholder=\"Entrez votre description\"> </textarea>");
+                if (user.getPhoto() != null) {
+                    String base64Image = Base64.getEncoder().encodeToString(user.getPhoto());
+                    out.println("<label>Photo de Profil Actuelle :</label>");
+                    out.println("<img src='data:image/png;base64," + base64Image + "' alt='Photo de Profil' style='max-width: 200px; display:block;'>");
                 }
+
+                out.println("<label for=\"photo\">Modifier l'image de profil :</label>");
+                out.println("<input type=\"file\" id=\"photo\" name=\"photo\" accept=\"image/*\">");
+            }
             %>
                 <button type="submit">Enregistrer</button>
             </form>

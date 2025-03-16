@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     Anniversaire DATE,
     Description TEXT,
     Mdp VARCHAR(255) NOT NULL,
+    Photo BYTEA,
     CONSTRAINT PK_Utilisateur PRIMARY KEY (UPseudo)
 );
 

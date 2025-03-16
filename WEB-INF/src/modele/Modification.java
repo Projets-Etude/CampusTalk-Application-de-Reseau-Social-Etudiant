@@ -1,31 +1,30 @@
 package modele;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.*;
 import org.apache.commons.text.*;
 import org.apache.commons.text.translate.CharSequenceTranslator;
 
 import controler.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/modification")
-
+@MultipartConfig(maxFileSize = 16177215)
 public class Modification extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    
+
         res.setContentType("text/html");
         HttpSession session = req.getSession(true);
         if(session.getAttribute("login") == null){
             res.sendRedirect("/sae-s4.a02.1/login.html");
         }else{
 
-        
+
         User user = (User) session.getAttribute("login");
         String pseudo  = req.getParameter("pseudo");
         String prenom  = req.getParameter("prenom");
@@ -34,6 +33,18 @@ public class Modification extends HttpServlet {
         String email  = req.getParameter("email");
         String description = req.getParameter("description");
         String mdp  = req.getParameter("mdp");
+
+        Part filePart = req.getPart("photo");
+        byte[] photo = null;
+
+        if (filePart != null && filePart.getSize() > 0) {
+            try (InputStream inputStream = filePart.getInputStream()) {
+                photo = inputStream.readAllBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         UserDAO userDAO = new UserDAO();
 
         CharSequenceTranslator cst = StringEscapeUtils.ESCAPE_HTML4;
@@ -69,7 +80,15 @@ public class Modification extends HttpServlet {
         if(mdp == null || mdp.isEmpty()){
             mdp = user.getMdp();
         }
-        User doneUpdate = userDAO.updateUser(pseudo, email, prenom, nom, anniv, description, mdp, ancienPseudo);
+        if(photo == null){
+            photo = user.getPhoto();
+        }
+        if (req.getContentType() == null || !req.getContentType().startsWith("multipart/form-data")) {
+            res.getWriter().println("Erreur : Le formulaire n'est pas envoyé en multipart/form-data");
+            return;
+        }
+
+        User doneUpdate = userDAO.updateUser(pseudo, email, prenom, nom, anniv, description, mdp, photo, ancienPseudo);
         if(doneUpdate != null){
             session.setAttribute("login", doneUpdate);
             res.sendRedirect("/sae-s4.a02.1/accueil.jsp");

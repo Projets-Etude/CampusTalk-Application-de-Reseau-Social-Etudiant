@@ -66,13 +66,9 @@ h1 {
 /* Bulle de message */
 .message-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Par défaut, messages à gauche */
+    flex-direction: row;
+    align-items: flex-start;
     margin: 10px 0;
-}
-
-.message-container.right {
-    align-items: flex-end; /* Messages envoyés à droite */
 }
 
 .message-bubble {
@@ -95,7 +91,7 @@ h1 {
 }
 
 .message-author {
-    font-size: 0.8em;
+    font-size: 1em;
     color: #555;
     font-weight: bold;
     margin-top: 3px;
@@ -176,19 +172,33 @@ aside.right{
 
 .member-profile{
     display: flex;
-    justify-content: left;
-    align-items: start;
+    justify-content: flex-start;
+    align-items: center;
     background-color: #949494;
     border-radius: 10px;
     padding: 5px;
+    padding-left: 15%;
     gap: 10px;
     margin: 10px;
 }
 
 .member-profile>h3{
-    margin: 0 auto;
+    margin: 0;
 }
 
 .member-profile>h4{
-    margin: 0 auto;
+    margin: 0;
+}
+
+.profil-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.message-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

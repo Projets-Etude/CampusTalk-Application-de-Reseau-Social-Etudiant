@@ -1,8 +1,11 @@
 package controler;
 
+import java.util.Base64;
 import java.util.Date;
 
 import modele.LikePosteDAO;
+
+import modele.UserDAO;
 
 public class Poste {
     private String posteID;
@@ -61,11 +64,24 @@ public class Poste {
 
     public String getPosteSuivi(String userPseudo, LikePosteDAO likePosteDAO){
         boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+
+        String photoPath;
+        UserDAO uDAO = new UserDAO();
+        User curUser = uDAO.findByID(userPseudo);
+        if (curUser.getPhoto() != null) {
+            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+        } else {
+            photoPath = "res/avatar.png";
+        }
+
         return "<div class='tweet'>" +
-        "<div class='tweet-header'>" +
-            "<strong>" + this.getUPseudo() + "</strong>" +
-            "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
-        "</div>" +
+                "<div class='tweet-header'>" +
+                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
+                "<div class='tweet-info>'" +
+                "<strong>" + this.getUPseudo() + "</strong>" +
+                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
+                "</div>" +
         "<div class='tweet-content'>" + this.getContenu() + "</div>" +
         (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
         "<div class='tweet-footer'>" +
@@ -83,10 +99,23 @@ public class Poste {
 
     public String getPosteCurrentUser(String userPseudo, LikePosteDAO likePosteDAO){
         boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+
+        String photoPath;
+        UserDAO uDAO = new UserDAO();
+        User curUser = uDAO.findByID(userPseudo);
+        if (curUser.getPhoto() != null) {
+            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+        } else {
+            photoPath = "res/avatar.png";
+        }
+
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
-                    "<strong>" + this.getUPseudo() + "</strong>" +
-                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
+                "<div class='tweet-info>'" +
+                "<strong>" + this.getUPseudo() + "</strong>" +
+                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
                 "</div>" +
                 "<div class='tweet-content'>" + this.getContenu() + "</div>" +
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
@@ -104,10 +133,23 @@ public class Poste {
 
     public String getPosteSuivre(String userPseudo, LikePosteDAO likePosteDAO){
         boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+
+        String photoPath;
+        UserDAO uDAO = new UserDAO();
+        User curUser = uDAO.findByID(userPseudo);
+        if (curUser.getPhoto() != null) {
+            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+        } else {
+            photoPath = "res/avatar.png";
+        }
+
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
-                    "<strong>" + this.getUPseudo() + "</strong>" +
-                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
+                "<div class='tweet-info>'" +
+                "<strong>" + this.getUPseudo() + "</strong>" +
+                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
                 "</div>" +
                 "<div class='tweet-content'>" + this.getContenu() + "</div>" +
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
@@ -126,10 +168,23 @@ public class Poste {
 
     public String getPosteSuivreElse(String userPseudo, LikePosteDAO likePosteDAO){
         boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+
+        String photoPath;
+        UserDAO uDAO = new UserDAO();
+        User curUser = uDAO.findByID(userPseudo);
+        if (curUser.getPhoto() != null) {
+            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+        } else {
+            photoPath = "res/avatar.png";
+        }
+
         return "<div class='tweet'>" +
                 "<div class='tweet-header'>" +
-                    "<strong>" + this.getUPseudo() + "</strong>" +
-                    "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
+                "<div class='tweet-info>'" +
+                "<strong>" + this.getUPseudo() + "</strong>" +
+                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
+                "</div>" +
                 "</div>" +
                 "<div class='tweet-content'>" + this.getContenu()+ "</div>" +
                 (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
