@@ -7,7 +7,8 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" type="text/css" href="accueil.css?version=51">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, controler.User,controler.ConvDuo, modele.PosteDAO, controler.Poste, modele.AbonnementDAO, controler.Abonnement, modele.ConvDAO, controler.Conv, modele.LikePosteDAO" %>
+    <%@ page import="modele.UserDAO, java.util.*, modele.PosteDAO, modele.AbonnementDAO, modele.ConvDAO, modele.LikePosteDAO" %>
+    <%@ page import="controler.*" %>
 </head>
 <body>
     <%
@@ -130,14 +131,18 @@
                 out.println("<input type=\"date\" id=\"anniv\" name=\"anniv\" placeholder=\"Nouvelle Date de Naissance\">");
                 out.println("<label for=\"description\">Description</label>");
                 out.println("<textarea type=\"text\" id=\"description\" name=\"description\" rows=\"5\" placeholder=\"Entrez votre description\"> </textarea>");
-                if (user.getPhoto() != null) {
-                    String base64Image = Base64.getEncoder().encodeToString(user.getPhoto());
-                    out.println("<label>Photo de Profil Actuelle :</label>");
-                    out.println("<img src='data:image/png;base64," + base64Image + "' alt='Photo de Profil' style='max-width: 200px; display:block;'>");
-                }
+
+                String photoPath = ImageUtils.getProfileImagePath(user);
+
+                out.println("<label>Photo de Profil Actuelle :</label>");
+                out.println("<img src='" + photoPath + "' alt='Photo de Profil' style='max-width: 200px; display:block;'>");
 
                 out.println("<label for=\"photo\">Modifier l'image de profil :</label>");
                 out.println("<input type=\"file\" id=\"photo\" name=\"photo\" accept=\"image/*\">");
+
+                out.println("<label>\n" +
+                        "        <input type=\"checkbox\" name=\"supprimerPhoto\" value=\"true\"> Supprimer ma photo de profil\n" +
+                        "    </label>");
             }
             %>
                 <button type="submit">Enregistrer</button>
@@ -178,34 +183,26 @@
                 <header class="titreFilActu">
                     <div>Fil d'actualites</div>
                 </header>
-                
-                <%
-                if(user != null){
-                    PosteDAO posteDAO = new PosteDAO();
-                    List<Poste> listPoste = posteDAO.findAll();
-                    AbonnementDAO abonnementDAO = new AbonnementDAO();
-                    LikePosteDAO likePosteDAO = new LikePosteDAO();
-                    
 
-                    for(Poste poste : listPoste){
-                        boolean exists = abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo());
-                        if(exists && poste.isVisibiliteRestreinte()){
-                            //BOUTON SUIVI
-                            out.println(poste.getPosteSuivi(user.getUPseudo(),likePosteDAO));
-                        }
-                        if(!poste.getUPseudo().equals(user.getUPseudo()) && poste.isVisibiliteRestreinte()) {
-                            continue;
-                        } else if(poste.getUPseudo().equals(user.getUPseudo())) {
-                            // CURRENT UTILISATEUR DONC PAS BOUTON SUIVRE
-                            out.println(poste.getPosteCurrentUser(user.getUPseudo(),likePosteDAO));
-                        } else if(exists) {
-                            // SUIVRE UN UTILISATEUR
-                            out.println(poste.getPosteSuivre(user.getUPseudo(),likePosteDAO));
-                        } else {
-                            out.println(poste.getPosteSuivreElse(user.getUPseudo(),likePosteDAO));
+                <%
+                    if(user != null){
+                        PosteDAO posteDAO = new PosteDAO();
+                        List<Poste> listPoste = posteDAO.findAll();
+                        AbonnementDAO abonnementDAO = new AbonnementDAO();
+                        LikePosteDAO likePosteDAO = new LikePosteDAO();
+
+                        for(Poste poste : listPoste){
+                            boolean isFollowing = abonnementDAO.exists(poste.getUPseudo(), user.getUPseudo());
+                            boolean isCurrentUser = poste.getUPseudo().equals(user.getUPseudo());
+                            boolean canFollow = !isCurrentUser && !isFollowing;
+
+                            if(poste.isVisibiliteRestreinte() && !isFollowing) {
+                                continue;
+                            }
+
+                            out.println(poste.getPosteHTML(user.getUPseudo(), likePosteDAO, isFollowing, isCurrentUser, canFollow));
                         }
                     }
-                }
                 %>
             </div>
         </div>

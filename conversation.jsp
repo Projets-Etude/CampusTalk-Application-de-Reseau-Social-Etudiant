@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="accueil.css">
     <link rel="stylesheet" href="conversation.css?version=51">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="java.util.*, controler.User, controler.Poste, controler.Abonnement, controler.Conv, controler.Message, java.time.format.DateTimeFormatter, java.time.LocalDateTime" %>
+    <%@ page import="java.util.*, java.time.format.DateTimeFormatter, java.time.LocalDateTime" %>
     <%@ page import="modele.*" %>
+    <%@ page import="controler.*" %>
 </head>
 <body>
     <%
@@ -38,66 +39,61 @@
     </header>
 
     <div class="conversation-main">
-        <div class="conversation-container">
-            <header class="conversation-header">
+        <div class="conversation-box">
             <%
-                out.println("<h1>" + conversation.getTitre() + "</h1>");
+                out.println("<h1> Conversation : " + conversation.getTitre() + "</h1>");
             %>
-            </header>
-            <%
-            if(user != null){
+            <div class="conversation-container">
+                <header class="conversation-header">
+                </header>
+                <%
+                if(user != null){
 
-                if (conversation != null) {
-                    out.println("<div style=\"position:fixed;\">Conversation : " + conversation.getTitre() + "</div>");
+                    if (conversation != null) {
 
-                    MessageDAO messageDAO = new MessageDAO();
-                    List<Message> messages = messageDAO.findByCID(convId);
-                    for (Message message : messages) {
-                        // On vérifie si l'auteur du message est l'utilisateur connecté
-                        String positionClass = message.getAuteur().equals(user.getUPseudo()) ? "right" : "left";
-                        String bubbleClass = message.getAuteur().equals(user.getUPseudo()) ? "blue" : "";
+                        MessageDAO messageDAO = new MessageDAO();
+                        List<Message> messages = messageDAO.findByCID(convId);
+                        for (Message message : messages) {
+                            // On vérifie si l'auteur du message est l'utilisateur connecté
+                            String positionClass = message.getAuteur().equals(user.getUPseudo()) ? "right" : "left";
+                            String bubbleClass = message.getAuteur().equals(user.getUPseudo()) ? "blue" : "";
 
-                        String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                            String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-                        UserDAO uDAO = new UserDAO();
-                        User curUser = uDAO.findByID(message.getAuteur());
+                            UserDAO uDAO = new UserDAO();
+                            User curUser = uDAO.findByID(message.getAuteur());
 
-                        String photoPath;
-                        if (curUser.getPhoto() != null) {
-                            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-                        } else {
-                            photoPath = "res/avatar.png";
-                        }
-                        out.println("<div class='message-container " + positionClass + "'>");
-                        if(positionClass.equals("left")){
-                            out.println("<div class='message-info'>");
-                            out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
-                            out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
-                            out.println("<span class='message-date'>" + formattedDate + "</span>");
-                            out.println("</div>");
-                            out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
-                        }
-                        else{
-                            out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
-                            out.println("<div class='message-info'>");
-                            out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
-                            out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
-                            out.println("<span class='message-date'>" + formattedDate + "</span>");
+                            String photoPath = ImageUtils.getProfileImagePath(curUser);
+
+                            out.println("<div class='message-container " + positionClass + "'>");
+                            if (positionClass.equals("left")) {
+                                out.println("<div class='message-info'>");
+                                out.println("<img class='profil-image' src=\"" + photoPath + "\" alt=\"" + curUser.getUPseudo() + " Avatar\">");
+                                out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
+                                out.println("<span class='message-date'>" + formattedDate + "</span>");
+                                out.println("</div>");
+                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                            } else {
+                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                                out.println("<div class='message-info'>");
+                                out.println("<img class='profil-image' src=\"" + photoPath + "\" alt=\"" + curUser.getUPseudo() + " Avatar\">");
+                                out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
+                                out.println("<span class='message-date'>" + formattedDate + "</span>");
+                                out.println("</div>");
+                            }
                             out.println("</div>");
                         }
-                        out.println("</div>");
+                    } else {
+                        out.println("Conversation non trouvée.");
                     }
-                } else {
-                    out.println("Conversation non trouvée.");
                 }
-            }
-            %>
+                %>
+            </div>
             <form action="/sae-s4.a02.1/createMessage" method="post" class="message-form">
                 <input type="hidden" name="cid" value="<%= convId %>">
                 <textarea name="contenu" placeholder="Écrire un message..." required></textarea>
                 <button type="submit">Envoyer</button>
             </form>
-
         </div>
         <aside>
             <h1>Participants</h1>

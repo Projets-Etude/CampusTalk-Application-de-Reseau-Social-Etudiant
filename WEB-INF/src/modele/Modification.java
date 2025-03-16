@@ -34,14 +34,19 @@ public class Modification extends HttpServlet {
         String description = req.getParameter("description");
         String mdp  = req.getParameter("mdp");
 
-        Part filePart = req.getPart("photo");
+        boolean supprimerPhoto = "true".equals(req.getParameter("supprimerPhoto"));
         byte[] photo = null;
 
-        if (filePart != null && filePart.getSize() > 0) {
-            try (InputStream inputStream = filePart.getInputStream()) {
-                photo = inputStream.readAllBytes();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (!supprimerPhoto) {
+            Part filePart = req.getPart("photo");
+            if (filePart != null && filePart.getSize() > 0) {
+                try (InputStream inputStream = filePart.getInputStream()) {
+                    photo = inputStream.readAllBytes();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                photo = user.getPhoto();
             }
         }
 
@@ -79,9 +84,6 @@ public class Modification extends HttpServlet {
         }
         if(mdp == null || mdp.isEmpty()){
             mdp = user.getMdp();
-        }
-        if(photo == null){
-            photo = user.getPhoto();
         }
         if (req.getContentType() == null || !req.getContentType().startsWith("multipart/form-data")) {
             res.getWriter().println("Erreur : Le formulaire n'est pas envoyé en multipart/form-data");

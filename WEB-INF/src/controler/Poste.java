@@ -62,145 +62,43 @@ public class Poste {
         this.uPseudo = uPseudo;
     }
 
-    public String getPosteSuivi(String userPseudo, LikePosteDAO likePosteDAO){
+    public String getPosteHTML(String userPseudo, LikePosteDAO likePosteDAO, boolean isFollowing, boolean isCurrentUser, boolean canFollow) {
         boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+        String photoPath = ImageUtils.getProfileImagePath(new UserDAO().findByID(this.uPseudo));
 
-        String photoPath;
-        UserDAO uDAO = new UserDAO();
-        User curUser = uDAO.findByID(userPseudo);
-        if (curUser.getPhoto() != null) {
-            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-        } else {
-            photoPath = "res/avatar.png";
+        StringBuilder html = new StringBuilder();
+        html.append("<div class='tweet'>")
+                .append("<div class='tweet-header'>")
+                .append("<img class='tweet-profil' src='").append(photoPath).append("' alt='").append(this.getUPseudo()).append(" Avatar'>")
+                .append("<div class='tweet-info'>")
+                .append("<strong>").append(this.getUPseudo()).append("</strong>")
+                .append("<div class='tweet-date'>").append(this.getDatePoste()).append("</div>")
+                .append("</div>")
+                .append("</div>")
+                .append("<div class='tweet-content'>").append(this.getContenu()).append("</div>");
+
+        if (this.isVisibiliteRestreinte()) {
+            html.append("<div class='tweet-private'>🔒 Privé</div>");
         }
 
-        return "<div class='tweet'>" +
-                "<div class='tweet-header'>" +
-                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
-                "<div class='tweet-info>'" +
-                "<strong>" + this.getUPseudo() + "</strong>" +
-                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
-                "</div>" +
-                "</div>" +
-        "<div class='tweet-content'>" + this.getContenu() + "</div>" +
-        (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
-        "<div class='tweet-footer'>" +
-            "<button class='followed-button'>Suivi</button>" +
+        html.append("<div class='tweet-footer'>");
 
-            "<form action='LikePosteServlet' method='post' class='like-form'>" +
-                "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                "<button type='submit' class='like-button " + ( hasLike ? "liked" : "") + "'>" +
-                    (hasLike ? "💔 Unlike" : "❤️ Like") +
-                "</button>" +
-            "</form>" +
-        "</div>" +
-        "</div>";
-    }
-
-    public String getPosteCurrentUser(String userPseudo, LikePosteDAO likePosteDAO){
-        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
-
-        String photoPath;
-        UserDAO uDAO = new UserDAO();
-        User curUser = uDAO.findByID(userPseudo);
-        if (curUser.getPhoto() != null) {
-            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-        } else {
-            photoPath = "res/avatar.png";
+        if (isFollowing) {
+            html.append("<button class='followed-button'>Suivi</button>");
+        } else if (canFollow) {
+            html.append("<a href='suivreUtilisateur?utilisateur=").append(this.getUPseudo()).append("' class='follow-button'>Suivre</a>");
         }
 
-        return "<div class='tweet'>" +
-                "<div class='tweet-header'>" +
-                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
-                "<div class='tweet-info>'" +
-                "<strong>" + this.getUPseudo() + "</strong>" +
-                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
-                "</div>" +
-                "</div>" +
-                "<div class='tweet-content'>" + this.getContenu() + "</div>" +
-                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
-                "<div class='tweet-footer'>" +
+        html.append("<form action='LikePosteServlet' method='post' class='like-form'>")
+                .append("<input type='hidden' name='posteID' value='").append(this.getPosteID()).append("'>")
+                .append("<button type='submit' class='like-button ").append(hasLike ? "liked" : "").append("'>")
+                .append(hasLike ? "💔 Unlike" : "❤️ Like")
+                .append("</button>")
+                .append("</form>")
+                .append("</div>")
+                .append("</div>");
 
-                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
-                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
-                            (hasLike ? "💔 Unlike" : "❤️ Like") +
-                        "</button>" +
-                    "</form>" +
-                "</div>" +
-                "</div>";
+        return html.toString();
     }
-
-    public String getPosteSuivre(String userPseudo, LikePosteDAO likePosteDAO){
-        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
-
-        String photoPath;
-        UserDAO uDAO = new UserDAO();
-        User curUser = uDAO.findByID(userPseudo);
-        if (curUser.getPhoto() != null) {
-            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-        } else {
-            photoPath = "res/avatar.png";
-        }
-
-        return "<div class='tweet'>" +
-                "<div class='tweet-header'>" +
-                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
-                "<div class='tweet-info>'" +
-                "<strong>" + this.getUPseudo() + "</strong>" +
-                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
-                "</div>" +
-                "</div>" +
-                "<div class='tweet-content'>" + this.getContenu() + "</div>" +
-                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
-                "<div class='tweet-footer'>" +
-                    "<button class='followed-button'>Suivi</button>" +
-
-                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
-                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
-                            (hasLike ? "💔 Unlike" : "❤️ Like") +
-                        "</button>" +
-                    "</form>" +
-                "</div>" +
-                "</div>";
-    }
-
-    public String getPosteSuivreElse(String userPseudo, LikePosteDAO likePosteDAO){
-        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
-
-        String photoPath;
-        UserDAO uDAO = new UserDAO();
-        User curUser = uDAO.findByID(userPseudo);
-        if (curUser.getPhoto() != null) {
-            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-        } else {
-            photoPath = "res/avatar.png";
-        }
-
-        return "<div class='tweet'>" +
-                "<div class='tweet-header'>" +
-                "<img class='tweet-profil' src=" + photoPath + " alt=" + userPseudo + " Avatar>" +
-                "<div class='tweet-info>'" +
-                "<strong>" + this.getUPseudo() + "</strong>" +
-                "<div class='tweet-date'>" + this.getDatePoste() + "</div>" +
-                "</div>" +
-                "</div>" +
-                "<div class='tweet-content'>" + this.getContenu()+ "</div>" +
-                (this.isVisibiliteRestreinte() ? "<div class='tweet-private'>🔒 Privé</div>" : "") +
-                "<div class='tweet-footer'>" +
-                    "<a href='suivreUtilisateur?utilisateur=" + this.getUPseudo() + "' class='follow-button'>Suivre</a>" +
-
-                    "<form action='LikePosteServlet' method='post' class='like-form'>" +
-                        "<input type='hidden' name='posteID' value='" + this.getPosteID() + "'>" +
-                        "<button type='submit' class='like-button " + (hasLike ? "liked" : "") + "'>" +
-                            (hasLike ? "💔 Unlike" : "❤️ Like") +
-                        "</button>" +
-                    "</form>" +
-                "</div>" +
-                "</div>";
-    }
-    
-
 }
 

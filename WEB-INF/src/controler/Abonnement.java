@@ -58,12 +58,7 @@ public class Abonnement {
 
         User targetUser = currentUser.equals(utilisateur1) ? user2 : user1;
 
-        String photoPath;
-        if (targetUser.getPhoto() != null) {
-            photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(targetUser.getPhoto());
-        } else {
-            photoPath = "res/avatar.png";
-        }
+        String photoPath = ImageUtils.getProfileImagePath(targetUser);
 
         return "<div class=\"friend-profile\">" +
                 "<div class=\"friend-avatar\">" +
@@ -79,6 +74,4 @@ public class Abonnement {
                 "</div>" +
                 "</div>";
     }
-    
-    
 }

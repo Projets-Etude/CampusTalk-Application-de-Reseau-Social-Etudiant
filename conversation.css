@@ -18,9 +18,17 @@ a:hover{
     padding: 20px;
 }
 
+.conversation-box{
+    display: flex;
+    flex-direction: column;
+    grid-column: 2/3;
+    top: -10%;
+    position: relative;
+}
+
 .conversation-container {
     width: 80vh;
-    height: 85vh;
+    height: 70vh;
     margin: 0 auto;
     padding-top: 10px;
     padding-bottom: 30px;
@@ -30,9 +38,6 @@ a:hover{
     overflow-y: auto;
     flex-direction: column;
     justify-content: flex-start;
-    padding-bottom: 70px;
-
-    grid-column: 2/3;
 }
 
 
@@ -103,7 +108,7 @@ h1 {
 /* Barre d'envoi de message compacte */
 .message-form {
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     margin:0 auto;
     width: 80vh;
     background-color: white;
