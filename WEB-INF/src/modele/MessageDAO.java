@@ -23,7 +23,14 @@ public class MessageDAO {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                message = new Message(rs.getString("mno"), rs.getString("contenue"), rs.getDate("date").toLocalDate(), rs.getString("auteur"));
+                byte[] image = rs.getBytes("Image");
+                message = new Message(
+                        rs.getString("MID"),
+                        rs.getString("Contenue"),
+                        rs.getDate("DateEnvoie").toLocalDate(),
+                        rs.getString("Auteur"),
+                        image
+                );
             }
             con.close();
         } catch (SQLException e) {
@@ -44,7 +51,8 @@ public class MessageDAO {
                     rs.getString("MID"),
                     rs.getString("Contenue"),
                     rs.getDate("DateEnvoie").toLocalDate(),  
-                    rs.getString("Auteur")
+                    rs.getString("Auteur"),
+                    rs.getBytes("Image")
                 );
                 messages.add(message);
             }
@@ -70,7 +78,8 @@ public class MessageDAO {
                         rs.getString("mno"),
                         rs.getString("contenue"),
                         rs.getDate("date").toLocalDate(),
-                        rs.getString("auteur")
+                        rs.getString("auteur"),
+                        rs.getBytes("image")
                 );
                 messages.add(message);
             }
@@ -96,13 +105,14 @@ public class MessageDAO {
     }
 
     public void create(Message message, String cid){
-        String query="INSERT INTO message values (?,?,?,?,?)";
+        String query="INSERT INTO message values (?,?,?,?,?,?)";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, message.getMno());
             ps.setString(2, message.getContenue());
             ps.setDate(3, Date.valueOf(message.getDate()));
             ps.setString(4, message.getAuteur());
             ps.setString(5,cid);
+            ps.setBytes(6, message.getImage());
             ps.executeUpdate();
             con.close();
         } catch (SQLException e) {

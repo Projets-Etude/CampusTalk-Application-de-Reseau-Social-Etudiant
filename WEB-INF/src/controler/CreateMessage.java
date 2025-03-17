@@ -1,18 +1,19 @@
 package controler;
 
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.*;
 import modele.MessageDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.UUID;
 
 @WebServlet("/createMessage")
+@MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class CreateMessage extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -24,13 +25,26 @@ public class CreateMessage extends HttpServlet {
             res.sendRedirect("login.html");
         }
         String cid = req.getParameter("cid");
-        if (contenue == null || contenue.trim().isEmpty() || auteur == null || cid == null) {
+        if (contenue == null && contenue.trim().isEmpty() && auteur == null && cid == null) {
+            res.sendRedirect("conversation.jsp?id=" + cid);
+            return;
+        }
+
+        Part filePart = req.getPart("image");
+        byte[] imageBytes = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            try (InputStream inputStream = filePart.getInputStream()) {
+                imageBytes = inputStream.readAllBytes();
+            }
+        }
+
+        if ((contenue == null || contenue.trim().isEmpty()) && (imageBytes == null || imageBytes.length == 0)) {
             res.sendRedirect("conversation.jsp?id=" + cid);
             return;
         }
 
         String mno = UUID.randomUUID().toString();
-        Message message = new Message(mno, contenue, LocalDate.now(), auteur.getUPseudo());
+        Message message = new Message(mno, contenue, LocalDate.now(), auteur.getUPseudo(), imageBytes);
 
         MessageDAO messageDAO = new MessageDAO();
         messageDAO.create(message, cid);

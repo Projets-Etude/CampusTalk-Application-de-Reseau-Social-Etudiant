@@ -7,12 +7,14 @@ public class Message {
     private String contenue;
     private LocalDate date;
     private String auteur;
+    private byte[] image;
 
-    public Message(String mno, String contenue, LocalDate date, String auteur) {
+    public Message(String mno, String contenue, LocalDate date, String auteur, byte[] image) {
         this.mno = mno;
         this.contenue = contenue;
         this.date = date;
         this.auteur = auteur;
+        this.image = image;
     }
 
     public String getMno() {
@@ -47,16 +49,29 @@ public class Message {
         this.auteur = auteur;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageBase64() {
+        return ImageUtils.getMessageImagePath(this);
+    }
+
     @Override
     public String toString() {
 
     String messageClass = this.auteur.equals("admin") ? "admin" : "user";
-    
-    return "<div class=\"message " + messageClass + "\">\n" +
-           "    <div class=\"author\">" + auteur + "</div>\n" +
-           "    <div class=\"content\">" + contenue + "</div>\n" +
-           "    <div class=\"time\">" + date + "</div>\n" +
-           "</div>";
-        }
+    String imageHtml = getImageBase64().isEmpty() ? "" : "<img src='" + getImageBase64() + "' alt='Image du message'/>";
 
+        return "<div class=\"message " + messageClass + "\">\n" +
+                "    <div class=\"author\">" + auteur + "</div>\n" +
+                "    <div class=\"content\">" + contenue + "</div>\n" +
+                "    <div class=\"time\">" + date + "</div>\n" +
+                "    <div class=\"image\">" + imageHtml + "</div>\n" +
+                "</div>";
+    }
 }
