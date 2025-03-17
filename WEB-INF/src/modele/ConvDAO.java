@@ -297,4 +297,15 @@ public class ConvDAO {
     }
     
 
+    public void updateConversation(String convId, String newName, Boolean newPrivacy) {
+        String query = "UPDATE Conversation SET titre = ?, privee = ? WHERE cid = ?";
+        try (Connection con = ds.getConnection();PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, newName);
+            stmt.setBoolean(2, newPrivacy);
+            stmt.setString(3, convId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

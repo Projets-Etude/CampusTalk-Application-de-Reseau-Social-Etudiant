@@ -38,9 +38,54 @@
     <header class="navbar">
         <div class="logo">CampusTalk</div>
         <nav>
+            <label for="modal-config">Configuration</label>
             <label for="modal-accueil"><a href ="accueil.jsp">Accueil</a></label>
         </nav>
     </header>
+
+    <input type="radio" id="close-modal" name="modal">
+
+    <input type="radio" id="modal-config" name="modal">
+    <div class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
+            <h2>Configuration</h2>
+            <form method="post" class="profilForm" action="/sae-s4.a02.1/ModifConv">
+                <input type="hidden" name="convId" value="<%= convId %>">
+
+                <% if(user != null) { %>
+                <label for="nomConv">Nom de la conversation (Actuel : <%= conversation.getTitre() %>)</label>
+                <input type="text" id="nomConv" name="nomConv" placeholder="Entrez un nom" value="<%= conversation.getTitre() %>">
+
+                <label for="privee">Conversation privée ? (Actuel : <%= conversation.isPrivee() ? "Oui" : "Non" %>)</label>
+                <select id="privee" name="privee">
+                    <option value="true" <%= conversation.isPrivee() ? "selected" : "" %>>Oui</option>
+                    <option value="false" <%= !conversation.isPrivee() ? "selected" : "" %>>Non</option>
+                </select>
+
+                <label>Participants :</label>
+                <div class="participants-list">
+                    <%
+                        AbonnementDAO abonnementDAO = new AbonnementDAO();
+                        List<Abonnement> listAbonnement = abonnementDAO.findByUserPseudo(user.getUPseudo());
+                        List<User> participants = participationDAO.findParticipantsByConversationId(convId);
+
+                        for (Abonnement abo : listAbonnement) {
+                            String pseudo = abo.getUtilisateur1().equals(user.getUPseudo()) ? abo.getUtilisateur2() : abo.getUtilisateur1();
+                            boolean isParticipant = participants.stream().anyMatch(p -> p.getUPseudo().equals(pseudo));
+                    %>
+                    <div class="participant-item">
+                        <input type="checkbox" name="participants" value="<%= pseudo %>" <%= isParticipant ? "checked" : "" %>>
+                        <label><%= pseudo %></label>
+                    </div>
+                    <% } %>
+                </div>
+                <% } %>
+
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+    </div>
 
     <div class="conversation-main">
         <div class="conversation-box">

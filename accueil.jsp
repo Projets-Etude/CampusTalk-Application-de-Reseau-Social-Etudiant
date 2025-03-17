@@ -28,6 +28,9 @@
             <label for="modal-messages">Conversations</label>
             <a href="/sae-s4.a02.1/conversations"><label>API</label></a>
             <label for="modal-profil">Profil</label>
+            <form action="Logout" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Déconnexion</button>
+            </form>
         </nav>
     </header>
 

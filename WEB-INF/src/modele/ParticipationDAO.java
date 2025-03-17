@@ -160,7 +160,33 @@ public class ParticipationDAO {
     
         return convs;
     }
-    
 
 
+    public void addParticipants(String convId, List<String> toAdd) {
+        String query = "INSERT INTO Participation (UPseudo, CID) VALUES (?, ?)";
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            for (String pseudo : toAdd) {
+                ps.setString(1, pseudo);
+                ps.setString(2, convId);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de l'ajout des participants : " + e.getMessage());
+        }
+    }
+
+    public void removeParticipants(String convId, List<String> toRemove) {
+        String query = "DELETE FROM Participation WHERE UPseudo = ? AND CID = ?";
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            for (String pseudo : toRemove) {
+                ps.setString(1, pseudo);
+                ps.setString(2, convId);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de la suppression des participants : " + e.getMessage());
+        }
+    }
 }
