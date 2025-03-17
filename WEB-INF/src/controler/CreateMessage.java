@@ -3,13 +3,16 @@ package controler;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.*;
 import modele.MessageDAO;
+import modele.ParticipationDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/createMessage")
@@ -20,6 +23,7 @@ public class CreateMessage extends HttpServlet {
 
         String contenue = req.getParameter("contenu");
         HttpSession session = req.getSession(true);
+        ParticipationDAO participationDAO = new ParticipationDAO();
         User auteur = (User) session.getAttribute("login");
         if(auteur == null){
             res.sendRedirect("login.html");
@@ -44,6 +48,12 @@ public class CreateMessage extends HttpServlet {
         }
 
         String mno = UUID.randomUUID().toString();
+        List<User> userList = participationDAO.findParticipantsByConversationId(cid);
+        if(!userList.contains(auteur) || (userList.isEmpty() || userList == null)){
+            List<String> participant = new ArrayList<>();
+            participant.add(auteur.getUPseudo());
+            participationDAO.addParticipants(cid, participant);
+        }
         Message message = new Message(mno, contenue, LocalDate.now(), auteur.getUPseudo(), imageBytes);
 
         MessageDAO messageDAO = new MessageDAO();

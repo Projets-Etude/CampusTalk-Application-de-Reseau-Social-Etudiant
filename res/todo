@@ -1,11 +1,11 @@
 Thomas : 
     - Service Rest (API) (DONE)
-    - Bouton Ajouter Participant
+    - Bouton Ajouter Participant (DONE)
     - Faille XSS Formulaire (DONE)
     - Bloquer les conversations pour les autres utilisateurs (conversation?id=******) (DONE)
 
 Hugo : 
     - Boostrap
-    - Bouton Configurer Conversation
-    - Bouton Logout
-    - Compteur de like à coté du bouton like 
+    - Bouton Configurer Conversation (DONE)
+    - Bouton Logout (DONE)
+    - Compteur de like à coté du bouton like (DONE)
