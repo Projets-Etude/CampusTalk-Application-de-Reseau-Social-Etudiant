@@ -326,7 +326,7 @@ textarea {
 }
 
 .like-button {
-    background-color: #e05380;
+    background-color: #e99bb4;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -343,7 +343,7 @@ textarea {
 }
 
 .like-button.liked {
-    background-color: #df9691;
+    background-color: #e99bb4;
 }
 
 .like-button.liked:hover {

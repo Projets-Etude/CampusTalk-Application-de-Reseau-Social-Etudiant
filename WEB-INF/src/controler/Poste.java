@@ -92,7 +92,7 @@ public class Poste {
         html.append("<form action='LikePosteServlet' method='post' class='like-form'>")
                 .append("<input type='hidden' name='posteID' value='").append(this.getPosteID()).append("'>")
                 .append("<button type='submit' class='like-button ").append(hasLike ? "liked" : "").append("'>")
-                .append(hasLike ? "💔 Unlike" : "❤️ Like")
+                .append(hasLike ? "❤️" : "🤍")
                 .append("</button>")
                 .append("</form>")
                 .append("</div>")
