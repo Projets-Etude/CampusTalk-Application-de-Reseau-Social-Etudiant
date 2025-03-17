@@ -2,6 +2,7 @@ package modele;
 
 import controler.Conv;
 import controler.ConvDuo;
+import controler.Message;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -269,5 +270,31 @@ public class ConvDAO {
             System.out.println("Erreur SQL lors de la création de la conversation de groupe : " + e.getMessage());
         }
     }
+
+    public List<Message> findMessagesByConversationId(String cid) {
+        List<Message> messages = new ArrayList<>();
+        String query = "SELECT * FROM Message WHERE CID = ?";
+    
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, cid);
+            ResultSet rs = ps.executeQuery();
+    
+            while (rs.next()) {
+                Message message = new Message(
+                    rs.getString("MID"),
+                    rs.getString("Contenue"),
+                    rs.getDate("DateEnvoie").toLocalDate(), // ou .toLocalDateTime() si tu veux l'heure aussi
+                    rs.getString("Auteur"),
+                    rs.getBytes("Image") // Image en tant que tableau de bytes, si nécessaire
+                );
+                messages.add(message);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+    
+        return messages;
+    }
+    
 
 }

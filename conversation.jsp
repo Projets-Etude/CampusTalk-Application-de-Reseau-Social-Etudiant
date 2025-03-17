@@ -28,11 +28,12 @@
                 return;
             }
             ParticipationDAO participationDAO = new ParticipationDAO();
-            if(!participationDAO.isParticipating(convId, user)){
-                response.sendRedirect("accueil.jsp");
-            }
             ConvDAO convDAO = new ConvDAO();
             Conv conversation = convDAO.findByID(convId);
+            if(conversation.isPrivee() && !participationDAO.isParticipating(convId, user)){
+                System.out.println(conversation.isPrivee());
+                response.sendRedirect("accueil.jsp");
+            }
         
         %>
     <header class="navbar">

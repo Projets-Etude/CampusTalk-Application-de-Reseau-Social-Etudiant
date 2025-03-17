@@ -26,6 +26,7 @@
         <div class="logo">CampusTalk</div>
         <nav>
             <label for="modal-messages">Conversations</label>
+            <a href="/sae-s4.a02.1/conversations"><label>API</label></a>
             <label for="modal-profil">Profil</label>
         </nav>
     </header>

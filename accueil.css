@@ -17,6 +17,11 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+nav > a {
+    text-decoration: none;
+    text-underline-offset: none;
+}
+
 .logo {
     font-size: 1.5rem;
     font-weight: 600;

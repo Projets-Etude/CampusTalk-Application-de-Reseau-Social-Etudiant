@@ -63,7 +63,7 @@ public class ParticipationDAO {
 
     public Conv findByID(String id){
         Conv conv = null;
-        String query="SELECT * FROM conv WHERE cno = ?";
+        String query="SELECT * FROM conversation WHERE cno = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -129,6 +129,38 @@ public class ParticipationDAO {
         List<User> users = this.findParticipantsByConversationId(conversationID);
         return users.contains(user);
     }
+
+    public List<Conv> findConversationsByUser(String upseudo) {
+        List<Conv> convs = new ArrayList<>();
+        String query = "SELECT c.* FROM Conversation c " +
+                       "JOIN Participation p ON c.CID = p.CID " +
+                       "WHERE p.UPseudo = ?";
+    
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+    
+            ps.setString(1, upseudo);
+            ResultSet rs = ps.executeQuery();
+    
+            while (rs.next()) {
+                Conv conv = new Conv(
+                        rs.getString("CID"),
+                        rs.getString("Titre"),
+                        rs.getBoolean("Privee"),
+                        rs.getBoolean("Duo"),
+                        rs.getString("Owner"),
+                        rs.getDate("Datecreation").toLocalDate()
+                );
+                convs.add(conv);
+            }
+    
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+        }
+    
+        return convs;
+    }
+    
 
 
 }
