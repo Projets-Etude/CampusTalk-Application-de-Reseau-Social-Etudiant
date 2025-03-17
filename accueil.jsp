@@ -7,7 +7,7 @@
     <title>WhatsUp</title>
     <link rel="stylesheet" type="text/css" href="accueil.css?version=51">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <%@ page import="modele.UserDAO, java.util.*, modele.PosteDAO, modele.AbonnementDAO, modele.ConvDAO, modele.LikePosteDAO" %>
+    <%@ page import="modele.UserDAO, java.util.*,modele.ParticipationDAO, modele.PosteDAO, modele.AbonnementDAO, modele.ConvDAO, modele.LikePosteDAO" %>
     <%@ page import="controler.*" %>
 </head>
 <body>
@@ -46,6 +46,7 @@
                 List<Conv> listConv = convDAO.findAll();
                 List<ConvDuo> listConvDuo = convDAO.findAllDuo();
                 AbonnementDAO abonnementDAO = new AbonnementDAO();
+                ParticipationDAO participationDAO = new ParticipationDAO();
 
                 for(ConvDuo convDuo: listConvDuo){
                     if(user.getUPseudo().equals(convDuo.getUPseudo1()) || user.getUPseudo().equals(convDuo.getUPseudo2())){
@@ -53,7 +54,7 @@
                     }
                 }
                 for(Conv conv : listConv){
-                    if(abonnementDAO.exists(conv.getOwner(),user.getUPseudo()) && conv.isPrivee() && !conv.isDuo()){
+                    if(abonnementDAO.exists(conv.getOwner(),user.getUPseudo()) && conv.isPrivee() && !conv.isDuo() && participationDAO.isParticipating(conv.getCno(),user)){
                         out.println(conv.toString());
                     }
                     if((conv.isPrivee() && !user.getUPseudo().equals(conv.getOwner())) || conv.isDuo()){
@@ -196,7 +197,7 @@
                             boolean isCurrentUser = poste.getUPseudo().equals(user.getUPseudo());
                             boolean canFollow = !isCurrentUser && !isFollowing;
 
-                            if(poste.isVisibiliteRestreinte() && !isFollowing) {
+                            if(poste.isVisibiliteRestreinte() && !isFollowing &&!isCurrentUser) {
                                 continue;
                             }
 

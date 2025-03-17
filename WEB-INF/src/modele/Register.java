@@ -32,16 +32,7 @@ public class Register extends HttpServlet {
         email = cst.translate(email);
         mdp = cst.translate(mdp);
 
-        Part filePart = req.getPart("photo");
-        byte[] photo = null;
-
-        if (filePart != null && filePart.getSize() > 0) {
-            try (InputStream inputStream = filePart.getInputStream()) {
-                photo = inputStream.readAllBytes();
-            }
-        }
-
-        User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp, photo);
+        User user = userDAO.create(pseudo, email, prenom, nom,anniv, email, mdp, null);
 
         if(user != null){
             HttpSession session = req.getSession(true);
