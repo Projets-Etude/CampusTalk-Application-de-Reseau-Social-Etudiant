@@ -77,7 +77,7 @@ public class LikePosteDAO {
                 users.add(rs.getString("UPseudo"));
             }
         } catch (SQLException e) {
-            System.out.println("Erreur SQL (getUsersWhoLiked) : " + e.getMessage());
+            System.out.println("Erreur SQL : " + e.getMessage());
         }
         return users;
     }

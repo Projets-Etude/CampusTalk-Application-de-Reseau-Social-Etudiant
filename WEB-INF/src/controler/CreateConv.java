@@ -63,7 +63,6 @@ public class CreateConv extends HttpServlet {
                  String convID = UUID.randomUUID().toString();
                  Conv conv = new Conv(convID, "Conversation de " + currentUser.getPrenom() + " et " + user1, isPrivate, true, currentUser.getUPseudo(), LocalDate.now());
      
-                 System.out.println("test");
                  convDAO.createDuoConversation(conv, currentUser.getUPseudo(), user1);
      
                  res.sendRedirect("conversation.jsp?id=" + convID);

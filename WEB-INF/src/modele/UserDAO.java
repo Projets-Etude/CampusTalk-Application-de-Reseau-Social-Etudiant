@@ -93,7 +93,6 @@ public class UserDAO {
             ps.setBytes(8, photo);
             ps.setString(9, ancienPseudo);
             
-            System.out.println(ps.toString());
             int index = ps.executeUpdate();
             
             
