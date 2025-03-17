@@ -31,7 +31,6 @@
             ConvDAO convDAO = new ConvDAO();
             Conv conversation = convDAO.findByID(convId);
             if(conversation.isPrivee() && !participationDAO.isParticipating(convId, user)){
-                System.out.println(conversation.isPrivee());
                 response.sendRedirect("accueil.jsp");
             }
         
