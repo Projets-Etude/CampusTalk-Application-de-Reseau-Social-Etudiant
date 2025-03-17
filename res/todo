@@ -1,8 +1,8 @@
 Thomas : 
     - Service Rest (API)
     - Bouton Ajouter Participant
-    - Faille XSS Formulaire
-    - Bloquer les conversations pour les autres utilisateurs (conversation?id=******)
+    - Faille XSS Formulaire (DONE)
+    - Bloquer les conversations pour les autres utilisateurs (conversation?id=******) (DONE)
 
 Hugo : 
     - Boostrap

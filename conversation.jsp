@@ -27,6 +27,10 @@
                 out.println("Aucune conversation sélectionnée.");
                 return;
             }
+            ParticipationDAO participationDAO = new ParticipationDAO();
+            if(!participationDAO.isParticipating(convId, user)){
+                response.sendRedirect("accueil.jsp");
+            }
             ConvDAO convDAO = new ConvDAO();
             Conv conversation = convDAO.findByID(convId);
         
@@ -50,7 +54,6 @@
                 if(user != null){
 
                     if (conversation != null) {
-
                         MessageDAO messageDAO = new MessageDAO();
                         List<Message> messages = messageDAO.findByCID(convId);
                         for (Message message : messages) {

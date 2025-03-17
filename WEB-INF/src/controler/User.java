@@ -96,4 +96,72 @@ public class User {
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uPseudo == null) ? 0 : uPseudo.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
+        result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+        result = prime * result + ((dateInscritption == null) ? 0 : dateInscritption.hashCode());
+        result = prime * result + ((anniversaire == null) ? 0 : anniversaire.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((mdp == null) ? 0 : mdp.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (uPseudo == null) {
+            if (other.uPseudo != null)
+                return false;
+        } else if (!uPseudo.equals(other.uPseudo))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (prenom == null) {
+            if (other.prenom != null)
+                return false;
+        } else if (!prenom.equals(other.prenom))
+            return false;
+        if (nom == null) {
+            if (other.nom != null)
+                return false;
+        } else if (!nom.equals(other.nom))
+            return false;
+        if (dateInscritption == null) {
+            if (other.dateInscritption != null)
+                return false;
+        } else if (!dateInscritption.equals(other.dateInscritption))
+            return false;
+        if (anniversaire == null) {
+            if (other.anniversaire != null)
+                return false;
+        } else if (!anniversaire.equals(other.anniversaire))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (mdp == null) {
+            if (other.mdp != null)
+                return false;
+        } else if (!mdp.equals(other.mdp))
+            return false;
+        return true;
+    }
+     
 }

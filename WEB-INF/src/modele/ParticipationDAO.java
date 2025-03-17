@@ -126,9 +126,7 @@ public class ParticipationDAO {
     }
 
     public boolean isParticipating(String conversationID, User user){
-
         List<User> users = this.findParticipantsByConversationId(conversationID);
-
         return users.contains(user);
     }
 

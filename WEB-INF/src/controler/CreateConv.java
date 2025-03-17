@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,6 +35,9 @@ public class CreateConv extends HttpServlet {
         }
 
         String convName = req.getParameter("conv-name");
+
+        CharSequenceTranslator cst = StringEscapeUtils.ESCAPE_HTML4;
+        convName = cst.translate(convName);
 
         boolean duo = req.getParameter("duo") != null;
 
