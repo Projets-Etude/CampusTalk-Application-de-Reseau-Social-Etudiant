@@ -77,11 +77,19 @@ h1 {
 }
 
 .message-bubble {
+    display: flex;
+    flex-direction: column-reverse;
     background-color: #e5e5ea;
     padding: 10px 15px;
+    margin: 5px;
     border-radius: 15px;
     max-width: 100%;
     word-wrap: break-word;
+}
+
+.message-image{
+    max-width: 15vw;
+    max-height: 15vw;
 }
 
 .message-bubble.blue {

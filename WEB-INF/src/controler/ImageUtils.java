@@ -13,4 +13,12 @@ public class ImageUtils {
             return "res/avatar.png";
         }
     }
+
+    public static String getMessageImagePath(Message message) {
+        if (message != null && message.getImage() != null) {
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(message.getImage());
+        } else {
+            return ""; // Pas d'image, retourne une chaîne vide
+        }
+    }
 }

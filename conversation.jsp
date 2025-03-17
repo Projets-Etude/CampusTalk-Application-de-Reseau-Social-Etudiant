@@ -58,6 +58,9 @@
                             String positionClass = message.getAuteur().equals(user.getUPseudo()) ? "right" : "left";
                             String bubbleClass = message.getAuteur().equals(user.getUPseudo()) ? "blue" : "";
 
+                            String imageBase64 = message.getImageBase64();
+                            String imageHtml = imageBase64.isEmpty() ? "" : "<img class='message-image' src='" + imageBase64 + "' alt='Image du message'>";
+
                             String formattedDate = message.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
                             UserDAO uDAO = new UserDAO();
@@ -72,9 +75,9 @@
                                 out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
                                 out.println("<span class='message-date'>" + formattedDate + "</span>");
                                 out.println("</div>");
-                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + imageHtml + "</div>");
                             } else {
-                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + "</div>");
+                                out.println("<div class='message-bubble " + bubbleClass + "'>" + message.getContenue() + imageHtml + "</div>");
                                 out.println("<div class='message-info'>");
                                 out.println("<img class='profil-image' src=\"" + photoPath + "\" alt=\"" + curUser.getUPseudo() + " Avatar\">");
                                 out.println("<span class='message-author'>" + message.getAuteur() + "</span>");
@@ -89,11 +92,19 @@
                 }
                 %>
             </div>
-            <form action="/sae-s4.a02.1/createMessage" method="post" class="message-form">
+            <form action="/sae-s4.a02.1/createMessage" method="post" enctype="multipart/form-data" class="message-form">
                 <input type="hidden" name="cid" value="<%= convId %>">
-                <textarea name="contenu" placeholder="Écrire un message..." required></textarea>
+
+                <textarea name="contenu" placeholder="Écrire un message..."></textarea>
+
+                <div class="file-upload-container">
+                    <input type="file" name="image" accept="image/*" id="imageInput">
+                </div>
+
                 <button type="submit">Envoyer</button>
             </form>
+
+
         </div>
         <aside>
             <h1>Participants</h1>
