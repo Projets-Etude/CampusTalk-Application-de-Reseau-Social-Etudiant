@@ -227,7 +227,7 @@ public class ConvDAO {
     @SuppressWarnings("unused")
     public void deleteById(String id){
         Conv conv = null;
-        String query="Delete * FROM Conversation WHERE cno = ?";
+        String query="Delete FROM Conversation WHERE cid = ?";
         try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, id);
             int rs = ps.executeUpdate();
@@ -283,9 +283,9 @@ public class ConvDAO {
                 Message message = new Message(
                     rs.getString("MID"),
                     rs.getString("Contenue"),
-                    rs.getDate("DateEnvoie").toLocalDate(), // ou .toLocalDateTime() si tu veux l'heure aussi
+                    rs.getDate("DateEnvoie").toLocalDate(),
                     rs.getString("Auteur"),
-                    rs.getBytes("Image") // Image en tant que tableau de bytes, si nécessaire
+                    rs.getBytes("Image")
                 );
                 messages.add(message);
             }

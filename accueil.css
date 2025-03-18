@@ -257,13 +257,13 @@ textarea {
 }
 
 .abonnement {
-    width: 33.33%;
+    width: 40%;
     background-color: rgb(52, 161, 129);
     overflow-y: auto;
 }
 
 .fil {
-    width: 66.66%;
+    width: 60%;
     background-color: #3D8D7A;
     overflow-y: auto;
 
@@ -446,10 +446,15 @@ textarea {
 }
 
 .remove-btn {
-    font-size: 20px;
-    color: #e74c3c;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #c30202;
+    color: white;
     text-decoration: none;
-    cursor: pointer;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 5px;
+    margin-right: 10px;
 }
 
 .remove-btn:hover {
@@ -763,4 +768,9 @@ textarea {
         font-size: 1.5rem;
         padding: 0.5rem;
     }
+}
+
+
+.friend-profile{
+    padding: 5px;
 }

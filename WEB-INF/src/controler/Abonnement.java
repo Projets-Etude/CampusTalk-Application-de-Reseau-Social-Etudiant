@@ -70,7 +70,7 @@ public class Abonnement {
                 "</div>" +
                 "<div class=\"friend-remove\">" +
                 "<a href=\"/sae-s4.a02.1/createConversation?abonnes=" + targetUser.getUPseudo() + "&duo=true\" class=\"create-conv-btn\">Conversation</a>" +
-                "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + targetUser.getUPseudo() + "\" class=\"remove-btn\">&#10005;</a>" +
+                "<a href=\"/sae-s4.a02.1/supprimerAbonne?utilisateur=" + targetUser.getUPseudo() + "\" class=\"remove-btn\">Supprimer</a>" +
                 "</div>" +
                 "</div>";
     }

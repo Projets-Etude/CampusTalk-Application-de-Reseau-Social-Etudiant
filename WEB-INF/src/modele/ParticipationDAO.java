@@ -189,4 +189,14 @@ public class ParticipationDAO {
             System.out.println("Erreur SQL lors de la suppression des participants : " + e.getMessage());
         }
     }
+
+    public void removeAllParticipants(String convId) {
+        String query = "DELETE FROM Participation WHERE CID = ?";
+        try (Connection con = ds.getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, convId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL lors de la suppression de tous les participants : " + e.getMessage());
+        }
+    }
 }

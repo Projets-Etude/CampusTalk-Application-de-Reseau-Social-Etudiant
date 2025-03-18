@@ -38,13 +38,21 @@
     <header class="navbar">
         <div class="logo">CampusTalk</div>
         <nav>
-            <label for="modal-config">Configuration</label>
+            <%
+                if(user.getUPseudo().equals(conversation.getOwner()) && !conversation.isDuo()){
+                    out.println("<label for=\"modal-config\">Configuration</label>");
+                }
+            %>
             <label for="modal-accueil"><a href ="accueil.jsp">Accueil</a></label>
+            <form action="Logout" method="post" class="d-inline" style="display: inline;">
+                <button type="submit" class="btn" style="background-color: #e74c3c; color: white; border: none; padding: 8px 16px; border-radius: 5px;">Déconnexion</button>
+            </form>
         </nav>
     </header>
 
     <input type="radio" id="close-modal" name="modal">
 
+    <%if(user.getUPseudo().equals(conversation.getOwner()) && !conversation.isDuo()){ %>
     <input type="radio" id="modal-config" name="modal">
     <div class="modal">
         <div class="modal-content">
@@ -86,8 +94,13 @@
                 <% } %>
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </form>
+            <form method="post" class="deleteForm" action="/sae-s4.a02.1/deleteConv" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette conversation ?');">
+                <input type="hidden" name="convId" value="<%= convId %>">
+                <button type="submit" class="btn btn-danger">Supprimer la conversation</button>
+            </form>
         </div>
     </div>
+    <% } %>
 
 
     <div class="conversation-main">
@@ -143,6 +156,12 @@
                 }
                 %>
             </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    let conversationContainer = document.querySelector(".conversation-container");
+                    conversationContainer.scrollTop = conversationContainer.scrollHeight;
+                });
+            </script>
             <form action="/sae-s4.a02.1/createMessage" method="post" enctype="multipart/form-data" class="message-form d-flex flex-column gap-2">
                 <input type="hidden" name="cid" value="<%= convId %>">
 

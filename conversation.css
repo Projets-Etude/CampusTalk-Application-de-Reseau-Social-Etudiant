@@ -326,3 +326,12 @@ textarea{
     }
 
 }
+
+.deleteForm{
+    margin-top: 2vw;
+}
+
+button.btn.btn-danger{
+    background-color: #de0101;
+    color: white;
+}
