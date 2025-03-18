@@ -50,15 +50,17 @@
         <div class="modal-content">
             <button class="close-btn" onclick="document.getElementById('close-modal').checked = true;">&times;</button>
             <h2>Configuration</h2>
+
             <form method="post" class="profilForm" action="/sae-s4.a02.1/ModifConv">
                 <input type="hidden" name="convId" value="<%= convId %>">
 
                 <% if(user != null) { %>
                 <label for="nomConv">Nom de la conversation (Actuel : <%= conversation.getTitre() %>)</label>
-                <input type="text" id="nomConv" name="nomConv" placeholder="Entrez un nom" value="<%= conversation.getTitre() %>">
+                <input type="text" id="nomConv" name="nomConv" placeholder="Entrez un nom"
+                       value="<%= conversation.getTitre() %>" class="form-control input-large">
 
                 <label for="privee">Conversation privée ? (Actuel : <%= conversation.isPrivee() ? "Oui" : "Non" %>)</label>
-                <select id="privee" name="privee">
+                <select id="privee" name="privee" class="form-control">
                     <option value="true" <%= conversation.isPrivee() ? "selected" : "" %>>Oui</option>
                     <option value="false" <%= !conversation.isPrivee() ? "selected" : "" %>>Non</option>
                 </select>
@@ -75,17 +77,18 @@
                             boolean isParticipant = participants.stream().anyMatch(p -> p.getUPseudo().equals(pseudo));
                     %>
                     <div class="participant-item">
-                        <input type="checkbox" name="participants" value="<%= pseudo %>" <%= isParticipant ? "checked" : "" %>>
-                        <label><%= pseudo %></label>
+                        <input type="checkbox" name="participants" value="<%= pseudo %>"
+                            <%= isParticipant ? "checked" : "" %> class="form-check-input">
+                        <label class="form-check-label"><%= pseudo %></label>
                     </div>
                     <% } %>
                 </div>
                 <% } %>
-
-                <button type="submit">Enregistrer</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
             </form>
         </div>
     </div>
+
 
     <div class="conversation-main">
         <div class="conversation-box">
@@ -140,45 +143,55 @@
                 }
                 %>
             </div>
-            <form action="/sae-s4.a02.1/createMessage" method="post" enctype="multipart/form-data" class="message-form">
+            <form action="/sae-s4.a02.1/createMessage" method="post" enctype="multipart/form-data" class="message-form d-flex flex-column gap-2">
                 <input type="hidden" name="cid" value="<%= convId %>">
 
-                <textarea name="contenu" placeholder="Écrire un message..."></textarea>
-
-                <div class="file-upload-container">
-                    <input type="file" name="image" accept="image/*" id="imageInput">
+                <textarea name="contenu" class="form-control" placeholder="Écrire un message..." rows="2"></textarea>
+                <div class="file-container">
+                    <input type="file" name="image" accept="image/*" id="imageInput" class="form-control">
+                    <label for="imageInput" class="custom-file-label">+</label>
+                    <span id="file-name"></span>
+                    <button type="submit" class="btn btn-primary w-100">➤</button>
                 </div>
 
-                <button type="submit">Envoyer</button>
             </form>
 
 
+
         </div>
-        <aside>
+        <aside class="right">
             <h1>Participants</h1>
-            <%
-                ParticipationDAO pDAO = new ParticipationDAO();
-                String owner = (convDAO.findByID(request.getParameter("id"))).getOwner();
-                List<User> users = pDAO.findParticipantsByConversationId(request.getParameter("id"));
-                for(User curUser : users){
-                    out.println("<div class='member-profile'>");
-                    String photoPath;
-                    if (curUser.getPhoto() != null) {
-                        photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
-                    } else {
-                        photoPath = "res/avatar.png";
-                    }
-                    out.println("<img class='profil-image' src=" + photoPath + " alt=" + curUser.getUPseudo() + " Avatar>");
-                    if(curUser.getUPseudo().equals(owner)){
-                        out.println("<h3>\uD83D\uDC51 " + curUser.getUPseudo() + "</h3>");
-                    }
-                    else{
-                        out.println("<h3>" + curUser.getUPseudo() + "</h3>");
-                    }
-                    out.println("</div>");
-                }
-            %>
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <%
+                        ParticipationDAO pDAO = new ParticipationDAO();
+                        String owner = (convDAO.findByID(request.getParameter("id"))).getOwner();
+                        List<User> users = pDAO.findParticipantsByConversationId(request.getParameter("id"));
+                        for(User curUser : users){
+                            String photoPath;
+                            if (curUser.getPhoto() != null) {
+                                photoPath = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(curUser.getPhoto());
+                            } else {
+                                photoPath = "res/avatar.png";
+                            }
+                    %>
+                    <div class="col-12">
+                        <div class="member-profile d-flex align-items-center">
+                            <img class="profil-image" src="<%= photoPath %>" alt="<%= curUser.getUPseudo() %> Avatar">
+                            <h3>
+                                <% if(curUser.getUPseudo().equals(owner)) { %>
+                                👑 <%= curUser.getUPseudo() %>
+                                <% } else { %>
+                                <%= curUser.getUPseudo() %>
+                                <% } %>
+                            </h3>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
         </aside>
+
     </div>
 </body>
 </html>
