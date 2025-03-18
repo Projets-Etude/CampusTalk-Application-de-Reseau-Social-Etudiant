@@ -1,93 +1,674 @@
-# SAé S4.A02.1
+# CampusTalk - Application de Réseau Social Étudiant
 
+## Table des matières
+- [Introduction](#introduction)
+- [Architecture du Projet](#architecture)
+- [Structure de la Base de Données](#structure-bd)
+- [Fonctionnalités](#fonctionnalités)
+- [Sécurité](#sécurité)
+- [Installation](#installation)
+- [Utilisation](#utilisation)
+- [Points Techniques Difficiles](#points-techniques-difficiles)
 
+## Introduction
+CampusTalk est une application web de réseau social développée en Java EE, permettant aux étudiants de créer des conversations privées ou publiques, de partager des messages et des images, et de gérer leurs relations avec d'autres utilisateurs. L'application suit une architecture MVC et utilise PostgreSQL comme système de gestion de base de données.
 
-## Getting started
+## Architecture du Projet
+L'application suit une architecture MVC avec une séparation claire des responsabilités :
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Structure des Dossiers
+```markdown
+.
+├── META-INF
+├── README.md
+├── WEB-INF
+│   ├── classes
+│   │   ├── controler
+│   │   └── modele
+│   └── src
+│       ├── controler
+│       │   ├── Abonnement.java
+│       │   ├── AjouterAbo.java
+│       │   ├── Conv.java
+│       │   ├── ConvDuo.java
+│       │   ├── ConversationsRestAPI.java
+│       │   ├── CreateConv.java
+│       │   ├── CreateMessage.java
+│       │   ├── CreatePoste.java
+│       │   ├── ImageUtils.java
+│       │   ├── LikePoste.java
+│       │   ├── LikeUnlikePoste.java
+│       │   ├── Logout.java
+│       │   ├── Message.java
+│       │   ├── ModifConv.java
+│       │   ├── Participation.java
+│       │   ├── Poste.java
+│       │   ├── SupprimeAbo.java
+│       │   └── User.java
+│       └── modele
+│           ├── AbonnementDAO.java
+│           ├── ConvDAO.java
+│           ├── DS.java
+│           ├── LikePosteDAO.java
+│           ├── Login.java
+│           ├── MessageDAO.java
+│           ├── Modification.java
+│           ├── ParticipationDAO.java
+│           ├── PosteDAO.java
+│           ├── Register.java
+│           ├── UserDAO.java
+│           └── config.postgres.prop
+├── accueil.css
+├── accueil.jsp
+├── conversation.css
+├── conversation.jsp
+├── login.html
+├── res
+│   ├── ModèleMCD.png
+│   ├── avatar.png
+│   ├── message.png
+│   ├── script.sql
+│   └── todo
+└── style.css
+```
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Structure de la Base de Données
+Le système d'information est structuré autour de plusieurs entités principales :
 
-## Add your files
+### MCD (Modèle Conceptuel de Données)
+```markdown
+- UTILISATEUR
+  * UPseudo (identifiant unique)
+  * Email
+  * Prenom
+  * Nom
+  * DateInscription
+  * Anniversaire
+  * Description
+  * Mdp
+  * Photo
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- CONVERSATION
+  * CID (identifiant unique)
+  * Titre
+  * Privee (booléen)
+  * Duo (booléen)
+  * Owner (référence à UTILISATEUR)
+
+- MESSAGE
+  * MID (identifiant unique)
+  * Contenue
+  * DateEnvoie
+  * Auteur (référence à UTILISATEUR)
+  * CID (référence à CONVERSATION)
+  * Image
+
+- POSTE
+  * PosteID (identifiant unique)
+  * Contenu
+  * DatePoste
+  * VisibiliteRestreinte
+  * UPseudo (référence à UTILISATEUR)
+
+- LIKEPOSTE
+  * PosteID (référence à POSTE)
+  * UPseudo (référence à UTILISATEUR)
+  * DateLike
+
+- ABONNEMENT
+  * AbonnementID (identifiant unique)
+  * Utilisateur1 (référence à UTILISATEUR)
+  * Utilisateur2 (référence à UTILISATEUR)
+  * DateAbonnement
+
+- PARTICIPATION
+  * UPseudo (référence à UTILISATEUR)
+  * CID (référence à CONVERSATION)
+  * DateEntree
+
+- CONVERSATIONDUO
+  * CID (référence à CONVERSATION)
+  * User1 (référence à UTILISATEUR)
+  * User2 (référence à UTILISATEUR)
+```
+
+## Fonctionnalités
+L'application implémente les fonctionnalités suivantes :
+
+### 1. Gestion des Utilisateurs
+- Inscription avec validation d'email
+- Connexion sécurisée
+- Profil personnel avec photo
+- Gestion des abonnements
+
+### 2. Conversations
+- Création de conversations privées ou publiques
+- Support des conversations en duo
+- Gestion des participants
+- Messages avec support d'images
+
+### 3. Publications
+- Création et gestion de posts
+- Système de likes
+- Partage d'images
+- Visibilité restreinte optionnelle
+
+## Contrôleurs et Fonctionnalités
+Les contrôleurs principaux sont :
+
+### 1. Gestion des Utilisateurs
+```java
+package controler;
+
+import java.time.LocalDate;
+
+public class User {
+    private String uPseudo;
+    private String email;
+    private String prenom;
+    private String nom;
+    private LocalDate dateInscritption;
+    private LocalDate anniversaire;
+    private String description;
+    private String mdp;
+    private byte[] photo;
+
+    public User(String UPseudo, String email, String prenom, String nom, LocalDate dateInscritption, LocalDate anniversaire, String description, String mdp, byte[] photo) {
+        this.uPseudo = UPseudo;
+        this.email = email;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.dateInscritption = LocalDate.now();
+        this.anniversaire = anniversaire;
+        this.description = description;
+        this.mdp = mdp;
+        this.photo = photo;
+    }
+
+    public String getUPseudo() {
+        return uPseudo;
+    }
+
+    public void setUPseudo(String UPseudo) {
+        this.uPseudo = UPseudo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public LocalDate getDateInscritption() {
+        return dateInscritption;
+    }
+
+    public void setDateInscritption(LocalDate dateInscritption) {
+        this.dateInscritption = dateInscritption;
+    }
+
+    public LocalDate getAnniversaire() {
+        return anniversaire;
+    }
+
+    public void setAnniversaire(LocalDate anniversaire) {
+        this.anniversaire = anniversaire;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uPseudo == null) ? 0 : uPseudo.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
+        result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+        result = prime * result + ((dateInscritption == null) ? 0 : dateInscritption.hashCode());
+        result = prime * result + ((anniversaire == null) ? 0 : anniversaire.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((mdp == null) ? 0 : mdp.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (uPseudo == null) {
+            if (other.uPseudo != null)
+                return false;
+        } else if (!uPseudo.equals(other.uPseudo))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (prenom == null) {
+            if (other.prenom != null)
+                return false;
+        } else if (!prenom.equals(other.prenom))
+            return false;
+        if (nom == null) {
+            if (other.nom != null)
+                return false;
+        } else if (!nom.equals(other.nom))
+            return false;
+        if (dateInscritption == null) {
+            if (other.dateInscritption != null)
+                return false;
+        } else if (!dateInscritption.equals(other.dateInscritption))
+            return false;
+        if (anniversaire == null) {
+            if (other.anniversaire != null)
+                return false;
+        } else if (!anniversaire.equals(other.anniversaire))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (mdp == null) {
+            if (other.mdp != null)
+                return false;
+        } else if (!mdp.equals(other.mdp))
+            return false;
+        return true;
+    }
+     
+}
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.univ-lille.fr/hugo.debuyser.etu/sae-s4.a02.1.git
-git branch -M main
-git push -uf origin main
+
+### 2. Gestion des Conversations
+```java
+package controler;
+
+import java.time.LocalDate;
+
+public class Conv {
+    private String cno;
+    private String titre;
+    private boolean privee;
+
+    private boolean duo;
+    private String owner;
+    private LocalDate date;
+
+    public Conv(String cno, String titre, boolean privee, boolean duo, String owner, LocalDate date) {
+        this.cno = cno;
+        this.titre = titre;
+        this.privee = privee;
+        this.duo = duo;
+        this.owner = owner;
+        this.date = date;
+    }
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String CID) {
+        this.cno = CID;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public boolean isDuo(){
+        return duo;
+    }
+
+    public void setDuo(boolean duo){
+        this.duo = duo;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public boolean isPrivee() {
+        return privee;
+    }
+
+    public void setPrivee(boolean privee) {
+        this.privee = privee;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    
+    public LocalDate getDate() {
+        return date;
+    }
+    
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        String privacyStatusClass = this.privee ? "private" : "public";
+        String privacyStatusText = this.privee ? "Privée" : "Publique";
+        
+        String url = "/sae-s4.a02.1/conversation.jsp?id=" + cno;
+        
+        return String.format(
+            "<div class=\"conversation-card\">\n" +
+            "    <div class=\"conversation-header\">\n" +
+            "        <a href=\"%s\" class=\"conversation-title\">%s</a>\n" +
+            "        <span class=\"conversation-owner\">Par %s</span>\n" +
+            "    </div>\n" +
+            "    <div class=\"conversation-details\">\n" +
+            "        <span class=\"privacy-status %s\">%s</span>\n" +
+            "        <span class=\"conversation-date\">%s</span>\n" +
+            "    </div>\n" +
+            "</div>",
+            url, titre, owner, privacyStatusClass, privacyStatusText, date
+        );
+    }
+}
+
 ```
 
-## Integrate with your tools
+### 3. Gestion des Messages
+```java
+package controler;
 
-- [ ] [Set up project integrations](https://gitlab.univ-lille.fr/hugo.debuyser.etu/sae-s4.a02.1/-/settings/integrations)
+import java.time.LocalDate;
 
-## Collaborate with your team
+public class Message {
+    private String mno;
+    private String contenue;
+    private LocalDate date;
+    private String auteur;
+    private byte[] image;
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+    public Message(String mno, String contenue, LocalDate date, String auteur, byte[] image) {
+        this.mno = mno;
+        this.contenue = contenue;
+        this.date = date;
+        this.auteur = auteur;
+        this.image = image;
+    }
 
-## Test and Deploy
+    public String getMno() {
+        return mno;
+    }
 
-Use the built-in continuous integration in GitLab.
+    public void setMno(String mno) {
+        this.mno = mno;
+    }
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+    public String getContenue() {
+        return contenue;
+    }
 
-***
+    public void setContenue(String contenue) {
+        this.contenue = contenue;
+    }
 
-# Editing this README
+    public LocalDate getDate() {
+        return date;
+    }
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
-## Suggestions for a good README
+    public String getAuteur() {
+        return auteur;
+    }
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
 
-## Name
-Choose a self-explaining name for your project.
+    public byte[] getImage() {
+        return image;
+    }
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+    public String getImageBase64() {
+        return ImageUtils.getMessageImagePath(this);
+    }
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+    @Override
+    public String toString() {
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+    String messageClass = this.auteur.equals("admin") ? "admin" : "user";
+    String imageHtml = getImageBase64().isEmpty() ? "" : "<img src='" + getImageBase64() + "' alt='Image du message'/>";
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+        return "<div class=\"message " + messageClass + "\">\n" +
+                "    <div class=\"author\">" + auteur + "</div>\n" +
+                "    <div class=\"content\">" + contenue + "</div>\n" +
+                "    <div class=\"time\">" + date + "</div>\n" +
+                "    <div class=\"image\">" + imageHtml + "</div>\n" +
+                "</div>";
+    }
+}
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### 4. Gestion des Posts
+```java
+package controler;
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+import java.util.Base64;
+import java.util.Date;
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+import modele.LikePosteDAO;
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+import modele.UserDAO;
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+public class Poste {
+    private String posteID;
+    private String contenu;
+    private Date datePoste;
+    private boolean visibiliteRestreinte;
+    private String uPseudo;
 
-## License
-For open source projects, say how it is licensed.
+    public Poste(String posteID, String contenu, Date datePoste, boolean visibiliteRestreinte, String uPseudo) {
+        this.posteID = posteID;
+        this.contenu = contenu;
+        this.datePoste = datePoste;
+        this.visibiliteRestreinte = visibiliteRestreinte;
+        this.uPseudo = uPseudo;
+    }
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+    public String getPosteID() {
+        return posteID;
+    }
+
+    public String getContenu() {
+        return contenu;
+    }
+
+    public Date getDatePoste() {
+        return datePoste;
+    }
+
+    public boolean isVisibiliteRestreinte() {
+        return visibiliteRestreinte;
+    }
+
+    public String getUPseudo() {
+        return uPseudo;
+    }
+
+    public void setPosteID(String posteID) {
+        this.posteID = posteID;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public void setDatePoste(Date datePoste) {
+        this.datePoste = datePoste;
+    }
+
+    public void setVisibiliteRestreinte(boolean visibiliteRestreinte) {
+        this.visibiliteRestreinte = visibiliteRestreinte;
+    }
+
+    public void setUPseudo(String uPseudo) {
+        this.uPseudo = uPseudo;
+    }
+
+    public String getPosteHTML(String userPseudo, LikePosteDAO likePosteDAO, boolean isFollowing, boolean isCurrentUser, boolean canFollow) {
+        boolean hasLike = likePosteDAO.hasLiked(this.getPosteID(), userPseudo);
+        String photoPath = ImageUtils.getProfileImagePath(new UserDAO().findByID(this.uPseudo));
+
+        StringBuilder html = new StringBuilder();
+        html.append("<div class='tweet'>")
+                .append("<div class='tweet-header'>")
+                .append("<img class='tweet-profil' src='").append(photoPath).append("' alt='").append(this.getUPseudo()).append(" Avatar'>")
+                .append("<div class='tweet-info'>")
+                .append("<strong>").append(this.getUPseudo()).append("</strong>")
+                .append("<div class='tweet-date'>").append(this.getDatePoste()).append("</div>")
+                .append("</div>")
+                .append("</div>")
+                .append("<div class='tweet-content'>").append(this.getContenu()).append("</div>");
+
+        if (this.isVisibiliteRestreinte()) {
+            html.append("<div class='tweet-private'>🔒 Privé</div>");
+        }
+
+        html.append("<div class='tweet-footer'>");
+
+        if (isFollowing) {
+            html.append("<button class='followed-button'>Suivi</button>");
+        } else if (canFollow) {
+            html.append("<a href='suivreUtilisateur?utilisateur=").append(this.getUPseudo()).append("' class='follow-button'>Suivre</a>");
+        }
+
+        html.append("<form action='LikePosteServlet' method='post' class='like-form'>")
+                .append("<input type='hidden' name='posteID' value='").append(this.getPosteID()).append("'>")
+                .append("<button type='submit' class='like-button ").append(hasLike ? "liked" : "").append("'>")
+                .append(hasLike ? "❤️" : "🤍").append(" " + likePosteDAO.countLikes(this.getPosteID()))
+                .append("</button>")
+                .append("</form>")
+                .append("</div>")
+                .append("</div>");
+
+        return html.toString();
+    }
+}
+
+
+```
+
+### 5. Gestion des Likes
+```java
+package controler;
+
+
+public class LikePoste {
+    private String posteID;
+    private String uPseudo;
+
+    public LikePoste(String posteID, String uPseudo) {
+        this.posteID = posteID;
+        this.uPseudo = uPseudo;
+    }
+
+    public String getPosteID() {
+        return posteID;
+    }
+
+    public void setPosteID(String posteID) {
+        this.posteID = posteID;
+    }
+
+    public String getUPseudo() {
+        return uPseudo;
+    }
+
+    public void setUPseudo(String uPseudo) {
+        this.uPseudo = uPseudo;
+    }
+
+}
+
+
+```
+
+## Points Techniques Difficiles
+1. Gestion des Conversations :
+   - Synchronisation des messages en temps réel
+   - Gestion efficace des participants
+   - Support des conversations en duo
+
+2. Sécurité :
+   - Protection contre les injections SQL
+   - Validation des fichiers uploadés
+   - Gestion sécurisée des sessions
+
+3. Performance :
+   - Optimisation des requêtes SQL
+   - Cache des données fréquentes
+   - Gestion efficace des ressources
+
+4. Architecture :
+   - Séparation claire des responsabilités
+   - Gestion des dépendances
+   - Maintenance du code
