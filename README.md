@@ -1,5 +1,7 @@
 # CampusTalk - Application de Réseau Social Étudiant
 
+Hugo DEBUYSER, Thomas GUISLIN
+
 ## Table des matières
 - [Introduction](#introduction)
 - [Architecture du Projet](#architecture)
@@ -76,61 +78,8 @@ L'application suit une architecture MVC avec une séparation claire des responsa
 Le système d'information est structuré autour de plusieurs entités principales :
 
 ### MCD (Modèle Conceptuel de Données)
-```markdown
-- UTILISATEUR
-  * UPseudo (identifiant unique)
-  * Email
-  * Prenom
-  * Nom
-  * DateInscription
-  * Anniversaire
-  * Description
-  * Mdp
-  * Photo
 
-- CONVERSATION
-  * CID (identifiant unique)
-  * Titre
-  * Privee (booléen)
-  * Duo (booléen)
-  * Owner (référence à UTILISATEUR)
-
-- MESSAGE
-  * MID (identifiant unique)
-  * Contenue
-  * DateEnvoie
-  * Auteur (référence à UTILISATEUR)
-  * CID (référence à CONVERSATION)
-  * Image
-
-- POSTE
-  * PosteID (identifiant unique)
-  * Contenu
-  * DatePoste
-  * VisibiliteRestreinte
-  * UPseudo (référence à UTILISATEUR)
-
-- LIKEPOSTE
-  * PosteID (référence à POSTE)
-  * UPseudo (référence à UTILISATEUR)
-  * DateLike
-
-- ABONNEMENT
-  * AbonnementID (identifiant unique)
-  * Utilisateur1 (référence à UTILISATEUR)
-  * Utilisateur2 (référence à UTILISATEUR)
-  * DateAbonnement
-
-- PARTICIPATION
-  * UPseudo (référence à UTILISATEUR)
-  * CID (référence à CONVERSATION)
-  * DateEntree
-
-- CONVERSATIONDUO
-  * CID (référence à CONVERSATION)
-  * User1 (référence à UTILISATEUR)
-  * User2 (référence à UTILISATEUR)
-```
+![MCD](./res/ModèleMCD.png "MCD")
 
 ## Fonctionnalités
 L'application implémente les fonctionnalités suivantes :
